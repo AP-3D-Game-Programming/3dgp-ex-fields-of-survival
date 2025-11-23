@@ -6,13 +6,13 @@ Dit prototype toont de core mechanic: gewassen opofferen voor combat of voor quo
 Kaarten
 
 Wesp (3 HP)
-	![Wesp kaart](wasp.png)
+	<img src="./wasp.png" width="200px">
 
 Aardappel – 2 aanval, 2 munten
-	![Aardappel kaart](potato.png)	
+	<img src="./potato.png" width="200px">
 
 Wortel – 1 aanval, 1 munt
-	![Wortel kaart](carrot.png)
+	<img src="./carrot.png" width="200px">
 
 Per ronde gebruiken we:
 
