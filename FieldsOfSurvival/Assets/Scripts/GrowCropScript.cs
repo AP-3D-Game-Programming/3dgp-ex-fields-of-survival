@@ -2,32 +2,35 @@ using UnityEngine;
 
 public class GrowCropScript : MonoBehaviour
 {
-    public float growDuration = 10f;  // seconds to fully grow
-    public Vector3 finalScale = new Vector3(1f, 1f, 1f);
-    private Vector3 startScale;
+    [Header("Growth Settings")]
+    public float growDuration = 10f;
+    public Vector3 finalScale = Vector3.one;
+    public Vector3 startScale = Vector3.zero;
 
-    private float growTimer = 0f;
+    private float timer = 0f;
     private bool isGrowing = false;
+
+    [Header("State")]
+    public bool isFullyGrown = false;
 
     void Start()
     {
-        startScale = transform.localScale;
-        transform.localScale = Vector3.zero; // start invisible/tiny
+        transform.localScale = startScale;
     }
 
     void Update()
     {
         if (isGrowing)
         {
-            growTimer += Time.deltaTime;
-            float t = growTimer / growDuration;
+            timer += Time.deltaTime;
+            float progress = timer / growDuration;
+            transform.localScale = Vector3.Lerp(startScale, finalScale, progress);
 
-            // Smooth growth
-            transform.localScale = Vector3.Lerp(startScale, finalScale, t);
-
-            if (t >= 1f)
+            if (progress >= 1f)
             {
-                isGrowing = false; // fully grown
+                isGrowing = false;
+                isFullyGrown = true;
+                Debug.Log("Crop fully grown!");
             }
         }
     }
@@ -35,5 +38,20 @@ public class GrowCropScript : MonoBehaviour
     public void StartGrowing()
     {
         isGrowing = true;
+        timer = 0f;
+        isFullyGrown = false;
+    }
+
+    public void Harvest()
+    {
+        if (isFullyGrown)
+        {
+            Debug.Log("Crop harvested!");
+            Destroy(gameObject);
+        }
+        else
+        {
+            Debug.Log("Crop is not ready yet!");
+        }
     }
 }
