@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.24638
+      value: -9.704229
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.0000019073486
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.49237
+      value: -9.28
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -61,7 +61,7 @@ PrefabInstance:
       addedObject: {fileID: 2518171823987610515}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7423610821080893536}
+      addedObject: {fileID: 9108131821198885929}
   m_SourcePrefab: {fileID: 100100000, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
 --- !u!1 &6388466910691466799 stripped
 GameObject:
@@ -90,7 +90,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7423610821080893536
+--- !u!114 &9108131821198885929
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,6 +99,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6388466910691466799}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fea79a26b0631f48aa7a92f13ecbfb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b1845d4feba2f44b9b33250f003c8cf, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WaspController
+  m_EditorClassIdentifier: Assembly-CSharp::WaspEnemy
+  speed: 5
+  rotateSpeed: 5
+  stopDistance: 3
+  attackDamage: 3
