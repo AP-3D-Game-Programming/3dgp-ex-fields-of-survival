@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Carrot
   - Soil
+  - Crop
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Plantable
   - Water
   - UI
   - 

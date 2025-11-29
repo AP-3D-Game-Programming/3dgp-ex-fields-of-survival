@@ -47,7 +47,16 @@ public class GrowCropScript : MonoBehaviour
         if (isFullyGrown)
         {
             Debug.Log("Crop harvested!");
-            Destroy(gameObject);
+            // Prefer calling Crop.Die so FarmManager is updated correctly
+            var crop = GetComponent<Crop>();
+            if (crop != null)
+            {
+                crop.Die();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
         else
         {

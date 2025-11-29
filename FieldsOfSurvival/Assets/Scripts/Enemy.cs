@@ -11,7 +11,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int attackDamage = 3;
 
     private Animator animator;
-    protected Plant currentTarget; // Protected: child classes kunnen target checken
+    protected Crop currentTarget; // Protected: child classes can check target
 
     protected virtual void Start()
     {
@@ -21,20 +21,34 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Update()
     {
-        // Debug testing
-        if (Input.GetKeyDown(KeyCode.F))
+        // Safety if no FarmManager present
+        if (FarmManager.Instance == null)
         {
-            animator.SetTrigger("Death");
+            currentTarget = null;
+            OnNoTargetAvailable();
+            return;
         }
 
-        if (currentTarget == null || currentTarget.IsDead())
+        // Always re-evaluate closest plant to allow retargeting when new crops are planted
+        Crop closest = FarmManager.Instance.GetClosestPlant(transform.position);
+
+        if (closest == null)
         {
-            SetTarget();
-            if (currentTarget == null)
-            {
-                OnNoTargetAvailable();
-                return;
-            }
+            currentTarget = null;
+            OnNoTargetAvailable();
+            return;
+        }
+
+        // Switch target if none, dead, or a different (closer) plant exists
+        if (currentTarget == null || currentTarget.IsDead() || closest != currentTarget)
+        {
+            currentTarget = closest;
+        }
+
+        if (currentTarget == null)
+        {
+            OnNoTargetAvailable();
+            return;
         }
 
         Vector3 toTarget = currentTarget.transform.position - transform.position;
@@ -54,6 +68,8 @@ public abstract class Enemy : MonoBehaviour
     {
         // Rotate
         Vector3 direction = toTarget.normalized;
+        if (direction.sqrMagnitude <= Mathf.Epsilon) return;
+
         Quaternion lookRotation = GetLookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotateSpeed * Time.deltaTime);
 
@@ -68,22 +84,23 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void OnReachedTarget()
     {
-        animator.SetBool("Attacking", true);
+        if (animator != null) animator.SetBool("Attacking", true);
     }
 
     protected virtual void OnMovingToTarget()
     {
-        animator.SetBool("Attacking", false);
+        if (animator != null) animator.SetBool("Attacking", false);
     }
 
     protected virtual void OnNoTargetAvailable()
     {
-        animator.SetBool("Attacking", false);
+        if (animator != null) animator.SetBool("Attacking", false);
     }
 
     private void SetTarget()
     {
-        currentTarget = FarmManager.Instance.GetClosestPlant(transform.position);
+        if (FarmManager.Instance != null)
+            currentTarget = FarmManager.Instance.GetClosestPlant(transform.position);
     }
 
     // Animation event

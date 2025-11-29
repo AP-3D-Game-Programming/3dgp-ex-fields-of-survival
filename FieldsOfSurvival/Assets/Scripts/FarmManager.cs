@@ -5,33 +5,50 @@ public class FarmManager : MonoBehaviour
 {
     public static FarmManager Instance;
 
-    private List<Plant> plants = new List<Plant>();
+    private List<Crop> plants = new List<Crop>();
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else if (Instance != this)
+        {
+            Debug.LogWarning("Multiple FarmManager instances detected. Destroying duplicate.");
+            Destroy(this);
+        }
     }
 
-    public void RegisterPlant(Plant plant)
+    public void RegisterPlant(Crop plant)
     {
+        if (plant == null) return;
         if (!plants.Contains(plant))
             plants.Add(plant);
     }
 
-    public void RemovePlant(Plant plant)
+    public void RemovePlant(Crop plant)
     {
+        if (plant == null) return;
         if (plants.Contains(plant))
             plants.Remove(plant);
     }
 
-    public Plant GetClosestPlant(Vector3 referencePosition)
+    public Crop GetClosestPlant(Vector3 referencePosition)
     {
-        Plant closestPlant = null;
+        Crop closestPlant = null;
         float closestDistance = float.MaxValue;
 
-        foreach (var plant in plants)
+        for (int i = plants.Count - 1; i >= 0; i--)
         {
-            if (plant == null || plant.IsDead()) continue;
+            var plant = plants[i];
+            if (plant == null)
+            {
+                plants.RemoveAt(i);
+                continue;
+            }
+
+            if (plant.IsDead()) continue;
 
             float distanceToPlant = Vector3.Distance(referencePosition, plant.transform.position);
             if (distanceToPlant < closestDistance)
