@@ -23,10 +23,15 @@ public class PlayerMovement_FP : MonoBehaviour
     [SerializeField] private LayerMask plantableLayer = 0; // default: no fallback
     [SerializeField] private float plantClearRadius = 0.5f; // prevents overlapping crops
 
+    [Header("Combat")]
+    [SerializeField] private float attackRange = 10f;
+    [SerializeField] private int attackDamage = 10;
+
     [Header("Crosshair")]
     [SerializeField] private int crosshairSize = 18;
     [SerializeField] private Color crosshairDefault = Color.white;
     [SerializeField] private Color crosshairTarget = Color.green;
+    [SerializeField] private Color crosshairEnemy = Color.red;
 
     private CharacterController cc;
     private Vector3 velocity;
@@ -39,6 +44,7 @@ public class PlayerMovement_FP : MonoBehaviour
     private bool lookedSoil;
     private RaycastHit lastHit;
     private Soil lookedSoilComponent;
+    private Enemy lookedEnemy;
 
     void Start()
     {
@@ -93,11 +99,12 @@ public class PlayerMovement_FP : MonoBehaviour
         lookedCrop = null;
         lookedSoil = false;
         lookedSoilComponent = null;
+        lookedEnemy = null;
 
         if (cameraTransform == null) return;
 
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-        RaycastHit[] hits = Physics.RaycastAll(ray, interactRange);
+        RaycastHit[] hits = Physics.RaycastAll(ray, Mathf.Max(interactRange, attackRange));
 
         if (hits == null || hits.Length == 0)
             return;
@@ -109,7 +116,16 @@ public class PlayerMovement_FP : MonoBehaviour
         {
             lastHit = hit;
 
-            // 1) check for a Crop (parent then children)
+            // 1) Check for Enemy (highest priority for combat)
+            var enemy = hit.collider.GetComponentInParent<Enemy>();
+            if (enemy == null) enemy = hit.collider.GetComponentInChildren<Enemy>();
+            if (enemy != null && hit.distance <= attackRange)
+            {
+                lookedEnemy = enemy;
+                return;
+            }
+
+            // 2) check for a Crop (parent then children)
             var crop = hit.collider.GetComponentInParent<Crop>();
             if (crop == null) crop = hit.collider.GetComponentInChildren<Crop>();
             if (crop != null)
@@ -118,7 +134,7 @@ public class PlayerMovement_FP : MonoBehaviour
                 return;
             }
 
-            // 2) check for a Soil component on this hit (preferred)
+            // 3) check for a Soil component on this hit (preferred)
             var soil = hit.collider.GetComponentInParent<Soil>();
             if (soil != null)
             {
@@ -127,14 +143,14 @@ public class PlayerMovement_FP : MonoBehaviour
                 return;
             }
 
-            // 3) fallback: tag-based soil
+            // 4) fallback: tag-based soil
             if (hit.collider.CompareTag("Soil"))
             {
                 lookedSoil = true;
                 return;
             }
 
-            // 4) layer fallback (only if user explicitly set plantableLayer)
+            // 5) layer fallback (only if user explicitly set plantableLayer)
             if (plantableLayer != 0 && (plantableLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
             {
                 lookedSoil = true;
@@ -156,6 +172,15 @@ public class PlayerMovement_FP : MonoBehaviour
 
     private void HandleInput()
     {
+        //attack
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            if(lookedEnemy != null)
+            {
+                lookedEnemy.TakeDamage(attackDamage);
+            }
+        }
+
         // Plant
         if (Keyboard.current.fKey.wasPressedThisFrame)
         {
@@ -261,7 +286,12 @@ public class PlayerMovement_FP : MonoBehaviour
     {
         // draw simple centered crosshair; change color when looking at a plantable target or a crop
         Color prevColor = GUI.color;
-        GUI.color = (lookedCrop != null || lookedSoil) ? crosshairTarget : crosshairDefault;
+        if (lookedEnemy != null)
+            GUI.color = crosshairEnemy;
+        else if (lookedCrop != null || lookedSoil)
+            GUI.color = crosshairTarget;
+        else
+            GUI.color = crosshairDefault;
 
         float x = (Screen.width - crosshairSize) / 2f;
         float y = (Screen.height - crosshairSize) / 2f;

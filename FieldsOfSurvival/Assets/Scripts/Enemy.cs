@@ -9,18 +9,24 @@ public abstract class Enemy : MonoBehaviour
 
     [Header("Combat")]
     [SerializeField] protected int attackDamage = 3;
+    [SerializeField] protected int maxHealth = 50;
 
+    private int currentHealth;
     private Animator animator;
     protected Crop currentTarget; // Protected: child classes can check target
+    private bool isDead = false;
 
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
+        currentHealth = maxHealth;
         SetTarget();
     }
 
     protected virtual void Update()
     {
+        if (isDead) return;
+
         // Safety if no FarmManager present
         if (FarmManager.Instance == null)
         {
@@ -110,5 +116,49 @@ public abstract class Enemy : MonoBehaviour
         {
             currentTarget.TakeDamage(attackDamage);
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (isDead) return;
+
+        currentHealth -= damage;
+        Debug.Log($"{gameObject.name} took {damage} damage. HP: {currentHealth}/{maxHealth}");
+
+        if (currentHealth <= 0) 
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("Death");
+        }
+
+        // Disable this script so enemy stops moving/attacking
+        enabled = false;
+
+        // Destroy after animation
+        Destroy(gameObject, 2f);
+
+        Debug.Log("Enemy killed!");
+    }
+
+    public bool IsDead()
+    {
+        return isDead;
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
     }
 }

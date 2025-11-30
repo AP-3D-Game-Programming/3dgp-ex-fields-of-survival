@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.38881
+      value: -3.032505
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.95
+      value: 0.8975506
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.28881
+      value: 27.537264
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -62,7 +62,37 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9108131821198885929}
+    - targetCorrespondingSourceObject: {fileID: 8829414129297429972, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2589659309461210835}
   m_SourcePrefab: {fileID: 100100000, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
+--- !u!1 &3378100225901180586 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8829414129297429972, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
+  m_PrefabInstance: {fileID: 6082407199124431742}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &2589659309461210835
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3378100225901180586}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1777747526001728494, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
 --- !u!1 &6388466910691466799 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
@@ -106,3 +136,4 @@ MonoBehaviour:
   rotateSpeed: 5
   stopDistance: 3
   attackDamage: 3
+  maxHealth: 30
