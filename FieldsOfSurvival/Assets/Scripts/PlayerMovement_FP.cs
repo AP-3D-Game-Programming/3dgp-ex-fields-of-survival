@@ -26,6 +26,7 @@ public class PlayerMovement_FP : MonoBehaviour
     [Header("Combat")]
     [SerializeField] private float attackRange = 10f;
     [SerializeField] private int attackDamage = 10;
+    [SerializeField] private Animator gunAnimator;
 
     [Header("Crosshair")]
     [SerializeField] private int crosshairSize = 18;
@@ -178,7 +179,14 @@ public class PlayerMovement_FP : MonoBehaviour
             if(lookedEnemy != null)
             {
                 lookedEnemy.TakeDamage(attackDamage);
+
+                // Trigger gun shoot animation
+                if (gunAnimator != null)
+                {
+                    gunAnimator.SetTrigger("Shoot");
+                }
             }
+
         }
 
         // Plant
