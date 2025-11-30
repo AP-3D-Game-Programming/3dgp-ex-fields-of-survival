@@ -97,37 +97,51 @@ public class PlayerMovement_FP : MonoBehaviour
         if (cameraTransform == null) return;
 
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, interactRange))
+        RaycastHit[] hits = Physics.RaycastAll(ray, interactRange);
+
+        if (hits == null || hits.Length == 0)
+            return;
+
+        // sort hits by distance so we consider nearest first
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        foreach (var hit in hits)
         {
             lastHit = hit;
 
-            // Robust crop detection: check parent first, then children of the hit collider
-            lookedCrop = hit.collider.GetComponentInParent<Crop>();
-            if (lookedCrop == null)
-                lookedCrop = hit.collider.GetComponentInChildren<Crop>();
-
-            if (lookedCrop != null) return;
-
-            // Prefer explicit Soil component (recommended) — this ensures planting only on proper soil
-            lookedSoilComponent = hit.collider.GetComponentInParent<Soil>();
-            if (lookedSoilComponent != null)
+            // 1) check for a Crop (parent then children)
+            var crop = hit.collider.GetComponentInParent<Crop>();
+            if (crop == null) crop = hit.collider.GetComponentInChildren<Crop>();
+            if (crop != null)
             {
+                lookedCrop = crop;
+                return;
+            }
+
+            // 2) check for a Soil component on this hit (preferred)
+            var soil = hit.collider.GetComponentInParent<Soil>();
+            if (soil != null)
+            {
+                lookedSoilComponent = soil;
                 lookedSoil = true;
                 return;
             }
 
-            // Fallback: allow planting when the collider is tagged "Soil"
+            // 3) fallback: tag-based soil
             if (hit.collider.CompareTag("Soil"))
             {
                 lookedSoil = true;
                 return;
             }
 
-            // Layer fallback only if user explicitly set plantableLayer in Inspector (non-zero)
+            // 4) layer fallback (only if user explicitly set plantableLayer)
             if (plantableLayer != 0 && (plantableLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
             {
                 lookedSoil = true;
+                return;
             }
+
+            // otherwise keep iterating to the next hit
         }
     }
 
