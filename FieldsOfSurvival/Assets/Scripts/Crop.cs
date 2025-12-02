@@ -15,6 +15,11 @@ public class Crop : MonoBehaviour
     [SerializeField] private CropType cropType = CropType.Carrot;
     public CropType Type => cropType;
 
+    [Header("Harvest")]
+    [Tooltip("How many units are returned to inventory when this crop is harvested")]
+    [SerializeField] private int harvestYield = 2;
+    public int HarvestYield => Mathf.Max(1, harvestYield);
+
     public bool IsDead()
     {
         return currentHP <= 0;

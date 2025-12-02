@@ -13,15 +13,14 @@ public class PlayerMovement_FP : MonoBehaviour
     public Transform cameraTransform;
     public float lookSpeed = 0.1f;
 
+    [Header("Toolbar")]
+    [SerializeField] private ToolbarManager toolbarManager;
+
     [Header("Interaction")]
-    [Tooltip("Assign crop prefabs (index 0 should be Carrot for now). Prefab root should have a Crop component.")]
-    public List<GameObject> cropPrefabs = new List<GameObject>();
-    [Tooltip("Index in cropPrefabs to plant when pressing F")]
-    public int selectedCropIndex = 0;
     [SerializeField] private float interactRange = 5f;
-    [Tooltip("Either tag the ground with 'Soil' or set this mask to allow planting on those layers. Leave empty (0) to disable layer fallback.")]
-    [SerializeField] private LayerMask plantableLayer = 0; // default: no fallback
-    [SerializeField] private float plantClearRadius = 0.5f; // prevents overlapping crops
+    [Tooltip("Either tag the ground with 'Soil' or set this mask to allow planting on those layers.")]
+    [SerializeField] private LayerMask plantableLayer = 0;
+    [SerializeField] private float plantClearRadius = 0.5f;
 
     [Header("Combat")]
     [SerializeField] private float attackRange = 10f;
@@ -40,7 +39,7 @@ public class PlayerMovement_FP : MonoBehaviour
 
     private float xRotation = 0f;
 
-    // runtime state about current look target
+    // Runtime state about current look target
     private Crop lookedCrop;
     private bool lookedSoil;
     private RaycastHit lastHit;
@@ -53,6 +52,11 @@ public class PlayerMovement_FP : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if (toolbarManager == null)
+        {
+            Debug.LogWarning("ToolbarManager not assigned to PlayerMovement_FP!");
+        }
     }
 
     void Update()
@@ -60,7 +64,7 @@ public class PlayerMovement_FP : MonoBehaviour
         isGrounded = cc.isGrounded;
         if (isGrounded && velocity.y < 0) velocity.y = -2f;
 
-        // Movement (AZERTY)
+        // Movement (WASD)
         float forward = (Keyboard.current.wKey.isPressed ? 1f : 0f) - (Keyboard.current.sKey.isPressed ? 1f : 0f);
         float strafe = (Keyboard.current.dKey.isPressed ? 1f : 0f) - (Keyboard.current.aKey.isPressed ? 1f : 0f);
 
@@ -78,7 +82,7 @@ public class PlayerMovement_FP : MonoBehaviour
 
         RotateCamera();
 
-        // Interaction (plant / harvest)
+        // Interaction
         UpdateLookTarget();
         HandleInput();
     }
@@ -110,14 +114,13 @@ public class PlayerMovement_FP : MonoBehaviour
         if (hits == null || hits.Length == 0)
             return;
 
-        // sort hits by distance so we consider nearest first
         System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
 
         foreach (var hit in hits)
         {
             lastHit = hit;
 
-            // 1) Check for Enemy (highest priority for combat)
+            // 1) Check for Enemy
             var enemy = hit.collider.GetComponentInParent<Enemy>();
             if (enemy == null) enemy = hit.collider.GetComponentInChildren<Enemy>();
             if (enemy != null && hit.distance <= attackRange)
@@ -126,7 +129,7 @@ public class PlayerMovement_FP : MonoBehaviour
                 return;
             }
 
-            // 2) check for a Crop (parent then children)
+            // 2) Check for Crop
             var crop = hit.collider.GetComponentInParent<Crop>();
             if (crop == null) crop = hit.collider.GetComponentInChildren<Crop>();
             if (crop != null)
@@ -135,7 +138,7 @@ public class PlayerMovement_FP : MonoBehaviour
                 return;
             }
 
-            // 3) check for a Soil component on this hit (preferred)
+            // 3) Check for Soil component
             var soil = hit.collider.GetComponentInParent<Soil>();
             if (soil != null)
             {
@@ -144,25 +147,22 @@ public class PlayerMovement_FP : MonoBehaviour
                 return;
             }
 
-            // 4) fallback: tag-based soil
+            // 4) Fallback: tag-based soil
             if (hit.collider.CompareTag("Soil"))
             {
                 lookedSoil = true;
                 return;
             }
 
-            // 5) layer fallback (only if user explicitly set plantableLayer)
+            // 5) Layer fallback
             if (plantableLayer != 0 && (plantableLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
             {
                 lookedSoil = true;
                 return;
             }
-
-            // otherwise keep iterating to the next hit
         }
     }
 
-    // Compute top-center of the specific collider that was hit.
     private Vector3 GetColliderTopCenter(Collider col, float offset = 0.05f)
     {
         if (col == null) return transform.position + transform.up * offset;
@@ -173,41 +173,44 @@ public class PlayerMovement_FP : MonoBehaviour
 
     private void HandleInput()
     {
-        //attack
+        // Attack — only when holding a WeaponItem in the toolbar
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            if(lookedEnemy != null)
+            if (lookedEnemy != null && toolbarManager != null)
             {
-                lookedEnemy.TakeDamage(attackDamage);
+                var currentWeapon = toolbarManager.CurrentItem as WeaponItem;
+                if (currentWeapon == null) return; // not holding a weapon -> cannot shoot
 
-                // Trigger gun shoot animation
+                if (!currentWeapon.CanFire()) return;
+
+                // Fire weapon (handles ammo / rate)
+                currentWeapon.Fire();
+
+                // Use weapon's damage value
+                lookedEnemy.TakeDamage(currentWeapon.damage);
+
                 if (gunAnimator != null)
                 {
                     gunAnimator.SetTrigger("Shoot");
                 }
             }
-
         }
 
-        // Plant
+        // Plant - now uses toolbar system
         if (Keyboard.current.fKey.wasPressedThisFrame)
         {
-            if (lookedSoil)
+            if (lookedSoil && toolbarManager != null)
             {
-                if (selectedCropIndex < 0 || selectedCropIndex >= cropPrefabs.Count)
+                GameObject prefab = toolbarManager.GetCurrentCropPrefab();
+                CropType? cropType = toolbarManager.GetCurrentCropType();
+
+                if (prefab == null || !cropType.HasValue)
                 {
-                    Debug.LogWarning("Selected crop index invalid or no prefab assigned.");
+                    Debug.Log("No crop selected or out of crops!");
                     return;
                 }
 
-                GameObject prefab = cropPrefabs[selectedCropIndex];
-                if (prefab == null)
-                {
-                    Debug.LogWarning("Crop prefab is null at selected index.");
-                    return;
-                }
-
-                // If we found a Soil component, compute the top-center of the specific hit collider and plant there
+                // If we have a Soil component, plant there
                 if (lookedSoilComponent != null)
                 {
                     if (!lookedSoilComponent.HasCrop())
@@ -223,6 +226,9 @@ public class PlayerMovement_FP : MonoBehaviour
                         }
 
                         lookedSoilComponent.PlantCrop(prefab, spawnPos);
+
+                        // Consume the crop from inventory
+                        toolbarManager.TryConsumeCrop();
                     }
                     else
                     {
@@ -232,7 +238,7 @@ public class PlayerMovement_FP : MonoBehaviour
                     return;
                 }
 
-                // Fallback: if we don't have a Soil component, plant at the raycast hit point (preserve spacing check)
+                // Fallback: plant at raycast hit point
                 Vector3 fallbackSpawn = lastHit.point + lastHit.normal * 0.05f;
 
                 Collider[] overlaps = Physics.OverlapSphere(fallbackSpawn, plantClearRadius);
@@ -240,7 +246,7 @@ public class PlayerMovement_FP : MonoBehaviour
                 {
                     if (c.GetComponentInParent<Crop>() != null || c.GetComponentInChildren<Crop>() != null)
                     {
-                        // there's already a crop closeby
+                        Debug.Log("Too close to another crop!");
                         return;
                     }
                 }
@@ -249,41 +255,75 @@ public class PlayerMovement_FP : MonoBehaviour
                 Crop cropComp = go.GetComponent<Crop>();
                 if (cropComp != null)
                 {
-                    int idx = Mathf.Clamp(selectedCropIndex, 0, System.Enum.GetValues(typeof(CropType)).Length - 1);
-                    cropComp.Initialize((CropType)idx);
+                    cropComp.Initialize(cropType.Value);
                 }
 
-                // Start growth if prefab contains GrowCropScript
                 var grow = go.GetComponent<GrowCropScript>();
                 if (grow != null) grow.StartGrowing();
+
+                // Consume the crop from inventory
+                toolbarManager.TryConsumeCrop();
             }
         }
 
         // Harvest
         if (Keyboard.current.hKey.wasPressedThisFrame)
         {
-            // Prefer harvesting via Soil if pointing at soil with a Soil component
+            // Prefer harvesting via Soil component
             if (lookedSoilComponent != null)
             {
-                bool harvested = lookedSoilComponent.TryHarvest();
-                if (harvested) return;
+                // Read crop info before harvesting so we can determine yield
+                Crop cropBeforeHarvest = lookedSoilComponent.GetComponentInChildren<Crop>();
+                if (cropBeforeHarvest != null)
+                {
+                    int yield = cropBeforeHarvest.HarvestYield;
+                    bool harvested = lookedSoilComponent.TryHarvest();
+                    if (harvested && toolbarManager != null)
+                    {
+                        // Add multiple units based on crop's HarvestYield
+                        toolbarManager.TryAddCrop(cropBeforeHarvest.Type, yield);
+                    }
+                }
+                else
+                {
+                    // No Crop component found; still attempt harvest (fallback behavior)
+                    bool harvested = lookedSoilComponent.TryHarvest();
+                    if (harvested && toolbarManager != null)
+                    {
+                        // Unknown type, nothing to add
+                    }
+                }
+
+                return;
             }
 
-            // If pointing at a crop directly, try to harvest via GrowCropScript (respects growth state)
+            // If pointing at a crop directly
             if (lookedCrop != null)
             {
-                // Ensure we get the GrowCropScript from the Crop GameObject (parent/children)
                 var grow = lookedCrop.GetComponent<GrowCropScript>();
                 if (grow == null)
                     grow = lookedCrop.GetComponentInChildren<GrowCropScript>();
 
-                if (grow != null)
+                if (grow != null && grow.isFullyGrown)
                 {
+                    CropType cropType = lookedCrop.Type;
+                    int yield = lookedCrop.HarvestYield;
+
                     grow.Harvest();
+
+                    // Add to inventory using the crop's yield
+                    if (toolbarManager != null)
+                    {
+                        toolbarManager.TryAddCrop(cropType, yield);
+                    }
+                }
+                else if (grow != null)
+                {
+                    Debug.Log("Crop is not fully grown yet!");
                 }
                 else
                 {
-                    // fallback: destroy / die
+                    // Fallback: just destroy
                     lookedCrop.Die();
                 }
             }
@@ -292,7 +332,7 @@ public class PlayerMovement_FP : MonoBehaviour
 
     private void OnGUI()
     {
-        // draw simple centered crosshair; change color when looking at a plantable target or a crop
+        // Draw crosshair
         Color prevColor = GUI.color;
         if (lookedEnemy != null)
             GUI.color = crosshairEnemy;
@@ -314,5 +354,25 @@ public class PlayerMovement_FP : MonoBehaviour
         GUI.Label(new Rect(x - crosshairSize * 0.25f, y - crosshairSize * 0.5f, crosshairSize * 2f, crosshairSize), "+", style);
 
         GUI.color = prevColor;
+
+        // Display current toolbar item
+        if (toolbarManager != null && toolbarManager.CurrentItem != null)
+        {
+            GUIStyle itemStyle = new GUIStyle(GUI.skin.label)
+            {
+                alignment = TextAnchor.LowerCenter,
+                fontSize = 16,
+                normal = { textColor = Color.white }
+            };
+
+            string displayText = toolbarManager.CurrentItem.itemName;
+            string amount = toolbarManager.CurrentItem.GetDisplayText();
+            if (!string.IsNullOrEmpty(amount))
+            {
+                displayText += $" x{amount}";
+            }
+
+            GUI.Label(new Rect(0, Screen.height - 50, Screen.width, 40), displayText, itemStyle);
+        }
     }
 }
