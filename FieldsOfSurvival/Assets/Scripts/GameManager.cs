@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [Header("Game State")]
     [SerializeField] private GamePhase currentPhase = GamePhase.Plant;
     [SerializeField] private int currentRound = 1;
+    [SerializeField] private Skybox skyboxController;
 
     [Header("Plant Phase Settings")]
     [SerializeField] private float plantPhaseDuration = 30f;
@@ -71,6 +72,8 @@ public class GameManager : MonoBehaviour
         currentPhase = GamePhase.Plant;
         plantPhaseTimer = plantPhaseDuration;
 
+        skyboxController.SetDay();
+
         Debug.Log($"Plant Phase Started - Round {currentRound}");
         OnPlantPhaseStart?.Invoke();
     }
@@ -79,10 +82,12 @@ public class GameManager : MonoBehaviour
     {
         currentPhase = GamePhase.Defense;
 
+        skyboxController.SetNight();
+
         // Calculate enemies for this round
         enemiesToSpawn = Mathf.RoundToInt(baseEnemyCount * Mathf.Pow(enemyCountMultiplier, currentRound - 1));
         totalEnemiesInWave = enemiesToSpawn;
-        remainingEnemies = 0; // Will increase as enemies spawn
+        remainingEnemies = 0;
 
         Debug.Log($"Defense Phase Started - Round {currentRound} - Enemies: {totalEnemiesInWave}");
         OnDefensePhaseStart?.Invoke();
