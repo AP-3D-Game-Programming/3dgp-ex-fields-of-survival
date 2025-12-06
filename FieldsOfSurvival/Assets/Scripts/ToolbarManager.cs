@@ -4,16 +4,21 @@ using UnityEngine.InputSystem;
 public class ToolbarManager : MonoBehaviour
 {
     [SerializeField] private ToolbarItem[] items;
+    [SerializeField] private int startingIndex = 0;
     private int currentIndex = 0;
 
     public ToolbarItem CurrentItem => items.Length > 0 ? items[currentIndex] : null;
     public int CurrentIndex => currentIndex;
 
-    void Start()
+    void Awake()
     {
-        // Initialize with first item selected
-        if (items.Length > 0)
+        // Ensure defaults and selection happen before other scripts' Start()
+        InitializeDefaults();
+
+        // set starting index (clamped)
+        if (items != null && items.Length > 0)
         {
+            currentIndex = Mathf.Clamp(startingIndex, 0, items.Length - 1);
             UpdateSelection();
         }
     }
@@ -166,5 +171,47 @@ public class ToolbarManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    // ----------------- Defaults (no persistence) -----------------
+    // Ensure weapons start with full magazines and carrot slots have at least 1.
+    private void InitializeDefaults()
+    {
+        if (items == null || items.Length == 0) return;
+
+        for (int i = 0; i < items.Length; i++)
+        {
+            var item = items[i];
+            if (item is WeaponItem weapon)
+            {
+                // Ensure full magazine at start
+                weapon.currentAmmo = weapon.maxAmmo;
+            }
+            else if (item is CropItem crop)
+            {
+                // Ensure at least 1 carrot if this slot is configured for carrots
+                if (crop.cropType == CropType.Carrot && crop.Amount < 1)
+                {
+                    crop.SetAmount(1);
+                }
+            }
+        }
+    }
+
+    // Returns the currently selected WeaponItem if any, otherwise the first WeaponItem found in toolbar (so player can shoot without having the weapon selected)
+    public WeaponItem GetPreferredWeapon()
+    {
+        if (items == null || items.Length == 0) return null;
+
+        if (CurrentItem is WeaponItem selectedWeapon)
+            return selectedWeapon;
+
+        foreach (var item in items)
+        {
+            if (item is WeaponItem weapon)
+                return weapon;
+        }
+
+        return null;
     }
 }

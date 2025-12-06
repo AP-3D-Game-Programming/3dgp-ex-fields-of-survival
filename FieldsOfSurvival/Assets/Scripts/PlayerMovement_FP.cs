@@ -24,7 +24,6 @@ public class PlayerMovement_FP : MonoBehaviour
 
     [Header("Combat")]
     [SerializeField] private float attackRange = 10f;
-    [SerializeField] private int attackDamage = 10;
     [SerializeField] private Animator gunAnimator;
 
     [Header("Crosshair")]
@@ -173,25 +172,38 @@ public class PlayerMovement_FP : MonoBehaviour
 
     private void HandleInput()
     {
-        // Attack — only when holding a WeaponItem in the toolbar
+        // Attack — only when the weapon is the active toolbar item
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            if (lookedEnemy != null && toolbarManager != null)
+            if (toolbarManager == null) return;
+
+            // Only allow shooting if the active toolbar item is a WeaponItem
+            var currentWeapon = toolbarManager.CurrentItem as WeaponItem;
+            if (currentWeapon == null) return; // weapon not active — cannot shoot
+
+            if (!currentWeapon.CanFire()) return;
+
+            // Fire weapon (handles ammo / rate)
+            currentWeapon.Fire();
+
+            if (gunAnimator != null)
             {
-                var currentWeapon = toolbarManager.CurrentItem as WeaponItem;
-                if (currentWeapon == null) return; // not holding a weapon -> cannot shoot
+                gunAnimator.SetTrigger("Shoot");
+            }
 
-                if (!currentWeapon.CanFire()) return;
-
-                // Fire weapon (handles ammo / rate)
-                currentWeapon.Fire();
-
-                // Use weapon's damage value
-                lookedEnemy.TakeDamage(currentWeapon.damage);
-
-                if (gunAnimator != null)
+            // Perform a firing raycast from the camera so shots can hit whatever you're aiming at.
+            // This allows firing even when you're not currently pointing at an Enemy (no lookedEnemy check).
+            if (cameraTransform != null)
+            {
+                Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+                if (Physics.Raycast(ray, out RaycastHit hit, attackRange))
                 {
-                    gunAnimator.SetTrigger("Shoot");
+                    var enemy = hit.collider.GetComponentInParent<Enemy>();
+                    if (enemy == null) enemy = hit.collider.GetComponentInChildren<Enemy>();
+                    if (enemy != null)
+                    {
+                        enemy.TakeDamage(currentWeapon.damage);
+                    }
                 }
             }
         }

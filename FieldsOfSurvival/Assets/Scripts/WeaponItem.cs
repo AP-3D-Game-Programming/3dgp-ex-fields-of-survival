@@ -11,19 +11,25 @@ public class WeaponItem : ToolbarItem
     [Header("Visual")]
     public GameObject weaponModel; // The 3D model of the weapon
 
-    private float lastFireTime;
+    // initialize so the weapon is immediately ready to fire
+    private float lastFireTime = -Mathf.Infinity;
 
     void Awake()
     {
-        // Initialize ammo in Awake so it runs even if the GameObject is inactive at scene load.
-        // This prevents currentAmmo from staying 0 when Start() wasn't called.
+        // Ensure ammo initialized even if Start/Awake order is weird
         if (currentAmmo <= 0)
             currentAmmo = maxAmmo;
+
+        // Make weapon ready immediately on awake (no initial cooldown)
+        lastFireTime = Time.time - fireRate;
     }
 
     public override void Activate()
     {
         base.Activate();
+        // When the weapon becomes active, ensure it's ready to fire immediately
+        lastFireTime = Time.time - fireRate;
+
         if (weaponModel != null)
         {
             weaponModel.SetActive(true);
@@ -47,7 +53,7 @@ public class WeaponItem : ToolbarItem
 
     public bool CanFire()
     {
-        return currentAmmo > 0 && Time.time - lastFireTime >= fireRate;
+        return currentAmmo > 0 && (Time.time - lastFireTime) >= fireRate;
     }
 
     public void Fire()

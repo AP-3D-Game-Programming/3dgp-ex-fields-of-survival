@@ -16,9 +16,14 @@ public class Crop : MonoBehaviour
     public CropType Type => cropType;
 
     [Header("Harvest")]
-    [Tooltip("How many units are returned to inventory when this crop is harvested")]
-    [SerializeField] private int harvestYield = 2;
-    public int HarvestYield => Mathf.Max(1, harvestYield);
+    [Tooltip("Base units returned to inventory when this crop is harvested (before any bonus drops)")]
+    [SerializeField] private int harvestYield = 1;
+
+    [Tooltip("Chance (0.0 - 1.0) to drop +1 extra unit on harvest (e.g. 0.25 = 25% chance)")]
+    [SerializeField, Range(0f, 1f)] private float bonusDropChance = 0.25f;
+
+    // Each harvest call will compute the final amount (base + possible bonus).
+    public int HarvestYield => Mathf.Max(1, harvestYield) + (Random.value <= bonusDropChance ? 1 : 0);
 
     public bool IsDead()
     {
