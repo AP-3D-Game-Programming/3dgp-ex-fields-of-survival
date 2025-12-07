@@ -47,7 +47,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   itemName: Glock
   maxAmmo: 999
-  currentAmmo: 999
+  currentAmmo: 996
   fireRate: 0.1
   damage: 10
   weaponModel: {fileID: 919132149155446097, guid: 1a528872117c34447895119c92cde5ee, type: 3}
