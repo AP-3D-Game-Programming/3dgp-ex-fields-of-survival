@@ -1,13 +1,15 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ShopTrigger : MonoBehaviour
 {
+    public ShopManager shopManager;
+
     private void OnTriggerEnter(Collider other)
     {
+        // Zorg dat je Player de tag "Player" heeft
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene("TEST SHOP");  // vervang met jouw scenenaam
+            shopManager.OpenShop();
         }
     }
 }
