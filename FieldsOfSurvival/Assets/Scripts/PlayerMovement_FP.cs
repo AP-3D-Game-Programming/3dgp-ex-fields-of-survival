@@ -67,7 +67,7 @@ public class PlayerMovement_FP : MonoBehaviour
         float forward = (Keyboard.current.wKey.isPressed ? 1f : 0f) - (Keyboard.current.sKey.isPressed ? 1f : 0f);
         float strafe = (Keyboard.current.dKey.isPressed ? 1f : 0f) - (Keyboard.current.aKey.isPressed ? 1f : 0f);
 
-        Vector3 move = transform.right * strafe + transform.forward * forward;
+        Vector3 move = (transform.right * strafe + transform.forward * forward).normalized;
         float speed = Keyboard.current.leftShiftKey.isPressed ? sprintSpeed : walkSpeed;
         cc.Move(move * speed * Time.deltaTime);
 

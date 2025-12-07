@@ -3,7 +3,7 @@
 public class WeaponItem : ToolbarItem
 {
     [Header("Weapon Settings")]
-    public int maxAmmo = 30;
+    public int maxAmmo = 999;
     public int currentAmmo;
     public float fireRate = 0.1f;
     public int damage = 10;
