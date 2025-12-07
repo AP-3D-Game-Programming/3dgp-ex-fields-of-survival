@@ -125,7 +125,7 @@ public abstract class Enemy : MonoBehaviour
         currentHealth -= damage;
         Debug.Log($"{gameObject.name} took {damage} damage. HP: {currentHealth}/{maxHealth}");
 
-        if (currentHealth <= 0) 
+        if (currentHealth <= 0)
         {
             Die();
         }
@@ -133,6 +133,10 @@ public abstract class Enemy : MonoBehaviour
 
     public void Die()
     {
+        //prevent multiple Die() activations
+        if (isDead) return;
+        isDead = true;
+
         if (animator != null)
         {
             animator.SetTrigger("Death");
@@ -140,6 +144,11 @@ public abstract class Enemy : MonoBehaviour
 
         // Disable this script so enemy stops moving/attacking
         enabled = false;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnEnemyKilled();
+        }
 
         // Destroy after animation
         Destroy(gameObject, 2f);
