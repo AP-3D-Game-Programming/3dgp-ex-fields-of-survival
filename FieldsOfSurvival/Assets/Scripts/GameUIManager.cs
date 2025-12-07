@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class GameUIManager : MonoBehaviour
 {
     [Header("UI References")]
+    [SerializeField] private GameObject gameUIPanel; //main panel to show/hide the UI
     [SerializeField] private TextMeshProUGUI roundText;
     [SerializeField] private TextMeshProUGUI phaseText;
     [SerializeField] private TextMeshProUGUI timerText;
@@ -23,6 +24,7 @@ public class GameUIManager : MonoBehaviour
     private bool isWarning = false;
     private bool isCritical = false;
 
+    #region Manager_logic
     private void Start()
     {
         // Subscribe to GameManager events
@@ -57,7 +59,7 @@ public class GameUIManager : MonoBehaviour
         // Update phase display
         if (phaseText != null)
         {
-            string phaseName = GameManager.Instance.IsPlantPhase() ? "PLANT FASE" : "DEFENSE FASE";
+            string phaseName = GameManager.Instance.IsPlantPhase() ? "PLANT PHASE" : "DEFENSE PHASE";
             phaseText.text = phaseName;
             phaseText.color = GameManager.Instance.IsPlantPhase() ? plantPhaseColor : defensePhaseColor;
         }
@@ -142,5 +144,48 @@ public class GameUIManager : MonoBehaviour
             GameManager.Instance.OnDefensePhaseStart.RemoveListener(OnDefensePhaseStarted);
             GameManager.Instance.OnRoundChanged.RemoveListener(OnRoundChanged);
         }
+    }
+    #endregion
+
+    // Public methods to control UI visibility
+    /// <summary>
+    /// Shows the game UI overlay
+    /// </summary>
+    public void ShowGameUI()
+    {
+        if (gameUIPanel != null)
+        {
+            gameUIPanel.SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// Hides the game UI overlay (useful for main menu, pause menu, etc.)
+    /// </summary>
+    public void HideGameUI()
+    {
+        if (gameUIPanel != null)
+        {
+            gameUIPanel.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// Toggles the game UI visibility
+    /// </summary>
+    public void ToggleGameUI()
+    {
+        if (gameUIPanel != null)
+        {
+            gameUIPanel.SetActive(!gameUIPanel.activeSelf);
+        }
+    }
+
+    /// <summary>
+    /// Checks if the game UI is currently visible
+    /// </summary>
+    public bool IsGameUIVisible()
+    {
+        return gameUIPanel != null && gameUIPanel.activeSelf;
     }
 }

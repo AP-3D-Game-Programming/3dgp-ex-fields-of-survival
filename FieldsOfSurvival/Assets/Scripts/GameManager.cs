@@ -18,8 +18,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int baseEnemyCount = 5;
     [SerializeField] private float enemyCountMultiplier = 1.5f;
     [SerializeField] private Enemy[] enemyPrefabs;
-    [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private float spawnDelay = 1f;
+
+    [Header("Field Settings")]
+    [SerializeField] private Transform fieldCenter;
+    [SerializeField] private Vector2 fieldSize = new Vector2(50f, 50f);
+    [SerializeField] private FieldSide protectedSide = FieldSide.North;
+    [SerializeField] private float spawnDistance = 5f;
+    [SerializeField] private bool useGroundCheck = true;
+    [SerializeField] private LayerMask groundLayer;
 
     private int remainingEnemies;
     private int enemiesToSpawn;
@@ -118,17 +125,130 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (spawnPoints == null || spawnPoints.Length == 0)
+        if (fieldCenter == null)
         {
-            Debug.LogError("No spawn points assigned!");
+            Debug.LogError("No field center assigned!");
             return;
         }
 
-        // Pick random enemy and spawn point
+        // Pick random enemy
         Enemy randomEnemy = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-        Transform randomSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
-        Instantiate(randomEnemy, randomSpawn.position, randomSpawn.rotation);
+        // Generate random position along one of the 3 open sides
+        Vector3 spawnPosition = GetRandomSpawnPosition();
+
+        // Make the enemy look towards the field center
+        Vector3 directionToCenter = (fieldCenter.position - spawnPosition).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToCenter.x, 0, directionToCenter.z));
+
+        // Spawn the enemy
+        Instantiate(randomEnemy, spawnPosition, lookRotation);
+    }
+
+    private Vector3 GetRandomSpawnPosition()
+    {
+        Vector3 centerPos = fieldCenter.position;
+        Vector3 spawnPosition = centerPos;
+
+        // Decide the 3 available spawn axis (except the protected axis)
+        FieldSide[] availableSides = GetAvailableSpawnSides();
+
+        // Choose a random axis
+        FieldSide chosenSide = availableSides[Random.Range(0, availableSides.Length)];
+
+        // Calculate position on chosen axis
+        float halfWidth = fieldSize.x / 2f;
+        float halfDepth = fieldSize.y / 2f;
+
+        int maxAttempts = 20;
+        int attempts = 0;
+
+        do
+        {
+            switch (chosenSide)
+            {
+                case FieldSide.North: // +Z side
+                    spawnPosition = centerPos + new Vector3(
+                        Random.Range(-halfWidth, halfWidth),
+                        0,
+                        halfDepth + spawnDistance
+                    );
+                    break;
+
+                case FieldSide.South: // -Z side
+                    spawnPosition = centerPos + new Vector3(
+                        Random.Range(-halfWidth, halfWidth),
+                        0,
+                        -(halfDepth + spawnDistance)
+                    );
+                    break;
+
+                case FieldSide.East: // +X side
+                    spawnPosition = centerPos + new Vector3(
+                        halfWidth + spawnDistance,
+                        0,
+                        Random.Range(-halfDepth, halfDepth)
+                    );
+                    break;
+
+                case FieldSide.West: // -X side
+                    spawnPosition = centerPos + new Vector3(
+                        -(halfWidth + spawnDistance),
+                        0,
+                        Random.Range(-halfDepth, halfDepth)
+                    );
+                    break;
+            }
+
+            // If ground check enabled, find real ground height
+            if (useGroundCheck)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(spawnPosition + Vector3.up * 100f, Vector3.down, out hit, 200f, groundLayer))
+                {
+                    spawnPosition = hit.point;
+                }
+            }
+
+            attempts++;
+
+        } while (attempts < maxAttempts && !IsValidSpawnPosition(spawnPosition));
+
+        return spawnPosition;
+    }
+
+    private FieldSide[] GetAvailableSpawnSides()
+    {
+        // Return all sides except the protected side
+        System.Collections.Generic.List<FieldSide> sides = new System.Collections.Generic.List<FieldSide>();
+
+        if (protectedSide != FieldSide.North) sides.Add(FieldSide.North);
+        if (protectedSide != FieldSide.South) sides.Add(FieldSide.South);
+        if (protectedSide != FieldSide.East) sides.Add(FieldSide.East);
+        if (protectedSide != FieldSide.West) sides.Add(FieldSide.West);
+
+        return sides.ToArray();
+    }
+
+    private bool IsValidSpawnPosition(Vector3 position)
+    {
+        // Check if the spawn position has an obstacle
+        if (Physics.CheckSphere(position, 1f))
+        {
+            return false;
+        }
+
+        // if ground check enabled, check if there's ground underneath
+        if (useGroundCheck)
+        {
+            RaycastHit hit;
+            if (!Physics.Raycast(position + Vector3.up * 2f, Vector3.down, out hit, 10f, groundLayer))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void OnEnemyKilled()
@@ -149,10 +269,132 @@ public class GameManager : MonoBehaviour
 
     public bool IsPlantPhase() => currentPhase == GamePhase.Plant;
     public bool IsDefensePhase() => currentPhase == GamePhase.Defense;
+
+    ////uncomment this section if you want to change the enemy spawn radius around the farm
+    ///it will show the spawn area with a gizmo drawing
+    //private Vector3[] GetProtectedEdge(Vector3 center, float halfWidth, float halfDepth, FieldSide side)
+    //{
+    //    Vector3[] edge = new Vector3[2];
+
+    //    switch (side)
+    //    {
+    //        case FieldSide.North:
+    //            edge[0] = center + new Vector3(-halfWidth, 0, halfDepth);
+    //            edge[1] = center + new Vector3(halfWidth, 0, halfDepth);
+    //            break;
+
+    //        case FieldSide.South:
+    //            edge[0] = center + new Vector3(-halfWidth, 0, -halfDepth);
+    //            edge[1] = center + new Vector3(halfWidth, 0, -halfDepth);
+    //            break;
+
+    //        case FieldSide.East:
+    //            edge[0] = center + new Vector3(halfWidth, 0, -halfDepth);
+    //            edge[1] = center + new Vector3(halfWidth, 0, halfDepth);
+    //            break;
+
+    //        case FieldSide.West:
+    //            edge[0] = center + new Vector3(-halfWidth, 0, -halfDepth);
+    //            edge[1] = center + new Vector3(-halfWidth, 0, halfDepth);
+    //            break;
+    //    }
+
+    //    return edge;
+    //}
+
+    //private Vector3[] GetSpawnZoneCorners(Vector3 center, float halfWidth, float halfDepth, FieldSide side)
+    //{
+    //    Vector3[] corners = new Vector3[4];
+
+    //    switch (side)
+    //    {
+    //        case FieldSide.North:
+    //            corners[0] = center + new Vector3(-halfWidth, 0, halfDepth);
+    //            corners[1] = center + new Vector3(halfWidth, 0, halfDepth);
+    //            corners[2] = center + new Vector3(halfWidth, 0, halfDepth + spawnDistance);
+    //            corners[3] = center + new Vector3(-halfWidth, 0, halfDepth + spawnDistance);
+    //            break;
+
+    //        case FieldSide.South:
+    //            corners[0] = center + new Vector3(-halfWidth, 0, -halfDepth);
+    //            corners[1] = center + new Vector3(halfWidth, 0, -halfDepth);
+    //            corners[2] = center + new Vector3(halfWidth, 0, -(halfDepth + spawnDistance));
+    //            corners[3] = center + new Vector3(-halfWidth, 0, -(halfDepth + spawnDistance));
+    //            break;
+
+    //        case FieldSide.East:
+    //            corners[0] = center + new Vector3(halfWidth, 0, -halfDepth);
+    //            corners[1] = center + new Vector3(halfWidth, 0, halfDepth);
+    //            corners[2] = center + new Vector3(halfWidth + spawnDistance, 0, halfDepth);
+    //            corners[3] = center + new Vector3(halfWidth + spawnDistance, 0, -halfDepth);
+    //            break;
+
+    //        case FieldSide.West:
+    //            corners[0] = center + new Vector3(-halfWidth, 0, -halfDepth);
+    //            corners[1] = center + new Vector3(-halfWidth, 0, halfDepth);
+    //            corners[2] = center + new Vector3(-(halfWidth + spawnDistance), 0, halfDepth);
+    //            corners[3] = center + new Vector3(-(halfWidth + spawnDistance), 0, -halfDepth);
+    //            break;
+    //    }
+
+    //    return corners;
+    //}
+
+    //// Debug visualization in Scene view
+    //private void OnDrawGizmosSelected()
+    //{
+    //    if (fieldCenter == null) return;
+
+    //    Vector3 center = fieldCenter.position;
+    //    float halfWidth = fieldSize.x / 2f;
+    //    float halfDepth = fieldSize.y / 2f;
+
+    //    // Draw the field (green)
+    //    Gizmos.color = Color.green;
+    //    Vector3[] fieldCorners = new Vector3[4]
+    //    {
+    //        center + new Vector3(-halfWidth, 0, -halfDepth),
+    //        center + new Vector3(halfWidth, 0, -halfDepth),
+    //        center + new Vector3(halfWidth, 0, halfDepth),
+    //        center + new Vector3(-halfWidth, 0, halfDepth)
+    //    };
+
+    //    for (int i = 0; i < 4; i++)
+    //    {
+    //        Gizmos.DrawLine(fieldCorners[i], fieldCorners[(i + 1) % 4]);
+    //    }
+
+    //    // Draw spawn zones (red) on all 3 open sides
+    //    Gizmos.color = Color.red;
+    //    FieldSide[] availableSides = GetAvailableSpawnSides();
+
+    //    foreach (FieldSide side in availableSides)
+    //    {
+    //        Vector3[] spawnCorners = GetSpawnZoneCorners(center, halfWidth, halfDepth, side);
+
+    //        for (int i = 0; i < 4; i++)
+    //        {
+    //            Gizmos.DrawLine(spawnCorners[i], spawnCorners[(i + 1) % 4]);
+    //        }
+    //    }
+
+    //    // draw the protected side (blauw = barn kant) - only the edge line
+    //    Gizmos.color = Color.blue;
+    //    Vector3[] barnEdge = GetProtectedEdge(center, halfWidth, halfDepth, protectedSide);
+    //    Gizmos.DrawLine(barnEdge[0], barnEdge[1]);
+    //}
 }
 
 public enum GamePhase
 {
     Plant,
     Defense
+}
+
+public enum FieldSide
+{
+    North,  // +Z
+    South,  // -Z
+    East,   // +X
+    West    // -X
 }
