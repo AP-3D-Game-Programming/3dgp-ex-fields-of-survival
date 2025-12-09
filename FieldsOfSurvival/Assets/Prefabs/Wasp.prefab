@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: enemy
       value: 
       objectReference: {fileID: 9108131821198885929}
+    - target: {fileID: 350657351644338801, guid: 613348e7f5209b3469756bf27ece31b0, type: 3}
+      propertyPath: offset.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 350657351644338801, guid: 613348e7f5209b3469756bf27ece31b0, type: 3}
+      propertyPath: offset.y
+      value: 1.6
+      objectReference: {fileID: 0}
     - target: {fileID: 6317593379697933016, guid: 613348e7f5209b3469756bf27ece31b0, type: 3}
       propertyPath: m_Name
       value: HealthBarCanvas
@@ -128,15 +136,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.704229
+      value: 25.185154
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0000019073486
+      value: 8.43
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.28
+      value: -13.908405
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -265,5 +273,6 @@ MonoBehaviour:
   speed: 5
   rotateSpeed: 5
   stopDistance: 3
+  barnStopDistance: 5
   attackDamage: 3
   maxHealth: 30

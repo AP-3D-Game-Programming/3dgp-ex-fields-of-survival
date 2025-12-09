@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8198309afc2efd64d9abbb316ab9e805, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.027247
+      value: 18.707737
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8198309afc2efd64d9abbb316ab9e805, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.00000047683716
+      value: 0.8975508
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8198309afc2efd64d9abbb316ab9e805, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20.62
+      value: -14.991845
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8198309afc2efd64d9abbb316ab9e805, type: 3}
       propertyPath: m_LocalRotation.w
@@ -127,6 +127,7 @@ MonoBehaviour:
   speed: 5
   rotateSpeed: 5
   stopDistance: 3
+  barnStopDistance: 5
   attackDamage: 3
   maxHealth: 50
 --- !u!1 &1449989438933405602 stripped
@@ -175,7 +176,7 @@ PrefabInstance:
       objectReference: {fileID: 8443977408226947328}
     - target: {fileID: 350657351644338801, guid: 613348e7f5209b3469756bf27ece31b0, type: 3}
       propertyPath: offset.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6317593379697933016, guid: 613348e7f5209b3469756bf27ece31b0, type: 3}
       propertyPath: m_Name
