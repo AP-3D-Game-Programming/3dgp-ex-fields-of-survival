@@ -5,6 +5,9 @@ public class FarmManager : MonoBehaviour
 {
     public static FarmManager Instance;
 
+    [Header("Barn Reference")]
+    [SerializeField] private Transform barn;
+
     private List<Crop> plants = new List<Crop>();
 
     private void Awake()
@@ -60,4 +63,31 @@ public class FarmManager : MonoBehaviour
 
         return closestPlant;
     }
+
+    // New method to get barn position when no crops are available
+    public Transform GetBarn()
+    {
+        return barn;
+    }
+
+    // Check if there are any living plants
+    public bool HasLivingPlants()
+    {
+        for (int i = plants.Count - 1; i >= 0; i--)
+        {
+            var plant = plants[i];
+            if (plant == null)
+            {
+                plants.RemoveAt(i);
+                continue;
+            }
+
+            if (!plant.IsDead())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

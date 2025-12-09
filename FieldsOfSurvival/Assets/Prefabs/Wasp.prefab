@@ -273,5 +273,6 @@ MonoBehaviour:
   speed: 5
   rotateSpeed: 5
   stopDistance: 3
+  barnStopDistance: 5
   attackDamage: 3
   maxHealth: 30

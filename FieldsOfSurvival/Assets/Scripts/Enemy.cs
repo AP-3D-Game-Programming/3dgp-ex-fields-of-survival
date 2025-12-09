@@ -6,6 +6,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float speed = 5f;
     [SerializeField] protected float rotateSpeed = 5f;
     [SerializeField] protected float stopDistance = 3f;
+    [SerializeField] protected float barnStopDistance = 5f;
 
     [Header("Combat")]
     [SerializeField] protected int attackDamage = 3;
@@ -14,7 +15,9 @@ public abstract class Enemy : MonoBehaviour
     private int currentHealth;
     private Animator animator;
     protected Crop currentTarget; // Protected: child classes can check target
+    protected Transform barnTarget; // New: barn target when no crops available
     private bool isDead = false;
+    private bool targetingBarn = false; // Track if we're targeting barn
 
     protected virtual void Start()
     {
@@ -31,6 +34,7 @@ public abstract class Enemy : MonoBehaviour
         if (FarmManager.Instance == null)
         {
             currentTarget = null;
+            barnTarget = null;
             OnNoTargetAvailable();
             return;
         }
@@ -40,28 +44,64 @@ public abstract class Enemy : MonoBehaviour
 
         if (closest == null)
         {
+            // No crops available, target the barn
             currentTarget = null;
-            OnNoTargetAvailable();
-            return;
+
+            if (barnTarget == null)
+            {
+                barnTarget = FarmManager.Instance.GetBarn();
+            }
+
+            if (barnTarget == null)
+            {
+                OnNoTargetAvailable();
+                return;
+            }
+
+            targetingBarn = true;
+            MoveTowardsBarn();
         }
-
-        // Switch target if none, dead, or a different (closer) plant exists
-        if (currentTarget == null || currentTarget.IsDead() || closest != currentTarget)
+        else
         {
-            currentTarget = closest;
+            // Crops available, target them
+            targetingBarn = false;
+            barnTarget = null;
+
+            // Switch target if none, dead, or a different (closer) plant exists
+            if (currentTarget == null || currentTarget.IsDead() || closest != currentTarget)
+            {
+                currentTarget = closest;
+            }
+
+            if (currentTarget == null)
+            {
+                OnNoTargetAvailable();
+                return;
+            }
+
+            Vector3 toTarget = currentTarget.transform.position - transform.position;
+
+            if (toTarget.magnitude <= stopDistance)
+            {
+                OnReachedTarget();
+            }
+            else
+            {
+                OnMovingToTarget();
+                MoveTowardsTarget(toTarget);
+            }
         }
+    }
 
-        if (currentTarget == null)
+    private void MoveTowardsBarn()
+    {
+        if (barnTarget == null) return;
+
+        Vector3 toTarget = barnTarget.position - transform.position;
+
+        if (toTarget.magnitude <= barnStopDistance)
         {
-            OnNoTargetAvailable();
-            return;
-        }
-
-        Vector3 toTarget = currentTarget.transform.position - transform.position;
-
-        if (toTarget.magnitude <= stopDistance)
-        {
-            OnReachedTarget();
+            OnReachedBarn();
         }
         else
         {
@@ -93,6 +133,12 @@ public abstract class Enemy : MonoBehaviour
         if (animator != null) animator.SetBool("Attacking", true);
     }
 
+    protected virtual void OnReachedBarn()
+    {
+        // Enemy reached the barn - play attack animation
+        if (animator != null) animator.SetBool("Attacking", true);
+    }
+
     protected virtual void OnMovingToTarget()
     {
         if (animator != null) animator.SetBool("Attacking", false);
@@ -106,13 +152,30 @@ public abstract class Enemy : MonoBehaviour
     private void SetTarget()
     {
         if (FarmManager.Instance != null)
+        {
             currentTarget = FarmManager.Instance.GetClosestPlant(transform.position);
+
+            // If no crops, get barn
+            if (currentTarget == null)
+            {
+                barnTarget = FarmManager.Instance.GetBarn();
+            }
+        }
     }
 
     // Animation event
     private void DealDamageEvent()
     {
-        if (currentTarget != null && !currentTarget.IsDead())
+        if (targetingBarn && barnTarget != null)
+        {
+            // Deal damage to barn (you'll need to implement barn health system)
+            // For now, just log it
+            Debug.Log($"{gameObject.name} attacked the barn for {attackDamage} damage!");
+
+            // Optional: Add barn damage logic here
+            // Example: BarnHealth.Instance?.TakeDamage(attackDamage);
+        }
+        else if (currentTarget != null && !currentTarget.IsDead())
         {
             currentTarget.TakeDamage(attackDamage);
         }
@@ -169,5 +232,10 @@ public abstract class Enemy : MonoBehaviour
     public int GetMaxHealth()
     {
         return maxHealth;
+    }
+
+    public bool IsTargetingBarn()
+    {
+        return targetingBarn;
     }
 }
