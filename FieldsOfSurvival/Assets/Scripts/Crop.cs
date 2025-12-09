@@ -3,7 +3,7 @@ using UnityEngine;
 public enum CropType
 {
     Carrot = 0,
-    // Add more crop types later
+    Potato = 1,
 }
 
 public class Crop : MonoBehaviour
@@ -12,7 +12,7 @@ public class Crop : MonoBehaviour
     private int currentHP;
 
     [Header("Type")]
-    [SerializeField] private CropType cropType = CropType.Carrot;
+    [SerializeField] private CropType cropType = CropType.Potato;
     public CropType Type => cropType;
 
     [Header("Harvest")]

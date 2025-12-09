@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1419191480998699266
 Transform:
   m_ObjectHideFlags: 0
@@ -47,6 +47,6 @@ MonoBehaviour:
   icon: {fileID: 0}
   itemName: Carrot
   maxStackSize: 99
-  currentAmount: 1
+  currentAmount: 41
   cropPrefab: {fileID: 6713121785117473111, guid: d6b01049aafd1df46aef75a4d8893e6b, type: 3}
   cropType: 0
