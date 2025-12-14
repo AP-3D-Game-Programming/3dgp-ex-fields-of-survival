@@ -144,15 +144,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.4253323
+      value: 1.7175016
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.025566697
+      value: 0.02556634
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 30.517193
+      value: -4.2362137
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -283,8 +283,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaspEnemy
   speed: 5
   rotateSpeed: 5
-  stopDistance: 3
-  barnStopDistance: 5
+  stopDistance: 1.5
+  barnStopDistance: 4
   attackDamage: 3
 --- !u!114 &2760260209812001595
 MonoBehaviour:

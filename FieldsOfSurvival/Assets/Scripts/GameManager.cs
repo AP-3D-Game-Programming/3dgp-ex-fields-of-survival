@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float enemyCountMultiplier = 1.5f;
     [SerializeField] private Enemy[] enemyPrefabs;
     [SerializeField] private float spawnDelay = 1f;
+    [SerializeField] private float nightTransitionTime = 5f;
 
     [Header("Field Settings")]
     [SerializeField] private Transform fieldCenter;
@@ -32,17 +33,23 @@ public class GameManager : MonoBehaviour
     private int enemiesToSpawn;
     private int totalEnemiesInWave;
     private bool isSpawning = false;
+    private bool nightTransitionStarted = false;
 
     [Header("Events")]
     public UnityEvent OnPlantPhaseStart;
     public UnityEvent OnDefensePhaseStart;
     public UnityEvent<int> OnRoundChanged;
 
+    [Header("Game Over")]
+    [SerializeField] private bool isGameOver = false;
+    public UnityEvent OnGameOver;
+
     // Properties
     public GamePhase CurrentPhase => currentPhase;
     public int CurrentRound => currentRound;
     public int RemainingEnemies => remainingEnemies;
     public float PlantPhaseTimeRemaining => plantPhaseTimer;
+    public bool IsGameOver => isGameOver;
 
     private void Awake()
     {
@@ -67,6 +74,13 @@ public class GameManager : MonoBehaviour
         {
             plantPhaseTimer -= Time.deltaTime;
 
+            if (!nightTransitionStarted && plantPhaseTimer <= nightTransitionTime)
+            {
+                nightTransitionStarted = true;
+                skyboxController.SetNight();
+                Debug.Log("Night transition started...");
+            }
+
             if (plantPhaseTimer <= 0)
             {
                 StartDefensePhase();
@@ -89,7 +103,7 @@ public class GameManager : MonoBehaviour
     {
         currentPhase = GamePhase.Defense;
 
-        skyboxController.SetNight();
+        nightTransitionStarted = false;
 
         // Calculate enemies for this round
         enemiesToSpawn = Mathf.RoundToInt(baseEnemyCount * Mathf.Pow(enemyCountMultiplier, currentRound - 1));
@@ -270,119 +284,131 @@ public class GameManager : MonoBehaviour
     public bool IsPlantPhase() => currentPhase == GamePhase.Plant;
     public bool IsDefensePhase() => currentPhase == GamePhase.Defense;
 
-    ////uncomment this section if you want to change the enemy spawn radius around the farm
-    ///it will show the spawn area with a gizmo drawing
-    //private Vector3[] GetProtectedEdge(Vector3 center, float halfWidth, float halfDepth, FieldSide side)
-    //{
-    //    Vector3[] edge = new Vector3[2];
+    public void GameOver()
+    {
+        if (isGameOver) return; // Prevent calling multiple times
 
-    //    switch (side)
-    //    {
-    //        case FieldSide.North:
-    //            edge[0] = center + new Vector3(-halfWidth, 0, halfDepth);
-    //            edge[1] = center + new Vector3(halfWidth, 0, halfDepth);
-    //            break;
+        isGameOver = true;
 
-    //        case FieldSide.South:
-    //            edge[0] = center + new Vector3(-halfWidth, 0, -halfDepth);
-    //            edge[1] = center + new Vector3(halfWidth, 0, -halfDepth);
-    //            break;
+        Debug.Log("GAME OVER - Barn Destroyed!");
 
-    //        case FieldSide.East:
-    //            edge[0] = center + new Vector3(halfWidth, 0, -halfDepth);
-    //            edge[1] = center + new Vector3(halfWidth, 0, halfDepth);
-    //            break;
+        OnGameOver?.Invoke();
 
-    //        case FieldSide.West:
-    //            edge[0] = center + new Vector3(-halfWidth, 0, -halfDepth);
-    //            edge[1] = center + new Vector3(-halfWidth, 0, halfDepth);
-    //            break;
-    //    }
+        //TODO: game over screen / logic
+    }
 
-    //    return edge;
-    //}
+    //draws the spawn zones in the scene view
+    private Vector3[] GetProtectedEdge(Vector3 center, float halfWidth, float halfDepth, FieldSide side)
+    {
+        Vector3[] edge = new Vector3[2];
 
-    //private Vector3[] GetSpawnZoneCorners(Vector3 center, float halfWidth, float halfDepth, FieldSide side)
-    //{
-    //    Vector3[] corners = new Vector3[4];
+        switch (side)
+        {
+            case FieldSide.North:
+                edge[0] = center + new Vector3(-halfWidth, 0, halfDepth);
+                edge[1] = center + new Vector3(halfWidth, 0, halfDepth);
+                break;
 
-    //    switch (side)
-    //    {
-    //        case FieldSide.North:
-    //            corners[0] = center + new Vector3(-halfWidth, 0, halfDepth);
-    //            corners[1] = center + new Vector3(halfWidth, 0, halfDepth);
-    //            corners[2] = center + new Vector3(halfWidth, 0, halfDepth + spawnDistance);
-    //            corners[3] = center + new Vector3(-halfWidth, 0, halfDepth + spawnDistance);
-    //            break;
+            case FieldSide.South:
+                edge[0] = center + new Vector3(-halfWidth, 0, -halfDepth);
+                edge[1] = center + new Vector3(halfWidth, 0, -halfDepth);
+                break;
 
-    //        case FieldSide.South:
-    //            corners[0] = center + new Vector3(-halfWidth, 0, -halfDepth);
-    //            corners[1] = center + new Vector3(halfWidth, 0, -halfDepth);
-    //            corners[2] = center + new Vector3(halfWidth, 0, -(halfDepth + spawnDistance));
-    //            corners[3] = center + new Vector3(-halfWidth, 0, -(halfDepth + spawnDistance));
-    //            break;
+            case FieldSide.East:
+                edge[0] = center + new Vector3(halfWidth, 0, -halfDepth);
+                edge[1] = center + new Vector3(halfWidth, 0, halfDepth);
+                break;
 
-    //        case FieldSide.East:
-    //            corners[0] = center + new Vector3(halfWidth, 0, -halfDepth);
-    //            corners[1] = center + new Vector3(halfWidth, 0, halfDepth);
-    //            corners[2] = center + new Vector3(halfWidth + spawnDistance, 0, halfDepth);
-    //            corners[3] = center + new Vector3(halfWidth + spawnDistance, 0, -halfDepth);
-    //            break;
+            case FieldSide.West:
+                edge[0] = center + new Vector3(-halfWidth, 0, -halfDepth);
+                edge[1] = center + new Vector3(-halfWidth, 0, halfDepth);
+                break;
+        }
 
-    //        case FieldSide.West:
-    //            corners[0] = center + new Vector3(-halfWidth, 0, -halfDepth);
-    //            corners[1] = center + new Vector3(-halfWidth, 0, halfDepth);
-    //            corners[2] = center + new Vector3(-(halfWidth + spawnDistance), 0, halfDepth);
-    //            corners[3] = center + new Vector3(-(halfWidth + spawnDistance), 0, -halfDepth);
-    //            break;
-    //    }
+        return edge;
+    }
 
-    //    return corners;
-    //}
+    private Vector3[] GetSpawnZoneCorners(Vector3 center, float halfWidth, float halfDepth, FieldSide side)
+    {
+        Vector3[] corners = new Vector3[4];
 
-    //// Debug visualization in Scene view
-    //private void OnDrawGizmosSelected()
-    //{
-    //    if (fieldCenter == null) return;
+        switch (side)
+        {
+            case FieldSide.North:
+                corners[0] = center + new Vector3(-halfWidth, 0, halfDepth);
+                corners[1] = center + new Vector3(halfWidth, 0, halfDepth);
+                corners[2] = center + new Vector3(halfWidth, 0, halfDepth + spawnDistance);
+                corners[3] = center + new Vector3(-halfWidth, 0, halfDepth + spawnDistance);
+                break;
 
-    //    Vector3 center = fieldCenter.position;
-    //    float halfWidth = fieldSize.x / 2f;
-    //    float halfDepth = fieldSize.y / 2f;
+            case FieldSide.South:
+                corners[0] = center + new Vector3(-halfWidth, 0, -halfDepth);
+                corners[1] = center + new Vector3(halfWidth, 0, -halfDepth);
+                corners[2] = center + new Vector3(halfWidth, 0, -(halfDepth + spawnDistance));
+                corners[3] = center + new Vector3(-halfWidth, 0, -(halfDepth + spawnDistance));
+                break;
 
-    //    // Draw the field (green)
-    //    Gizmos.color = Color.green;
-    //    Vector3[] fieldCorners = new Vector3[4]
-    //    {
-    //        center + new Vector3(-halfWidth, 0, -halfDepth),
-    //        center + new Vector3(halfWidth, 0, -halfDepth),
-    //        center + new Vector3(halfWidth, 0, halfDepth),
-    //        center + new Vector3(-halfWidth, 0, halfDepth)
-    //    };
+            case FieldSide.East:
+                corners[0] = center + new Vector3(halfWidth, 0, -halfDepth);
+                corners[1] = center + new Vector3(halfWidth, 0, halfDepth);
+                corners[2] = center + new Vector3(halfWidth + spawnDistance, 0, halfDepth);
+                corners[3] = center + new Vector3(halfWidth + spawnDistance, 0, -halfDepth);
+                break;
 
-    //    for (int i = 0; i < 4; i++)
-    //    {
-    //        Gizmos.DrawLine(fieldCorners[i], fieldCorners[(i + 1) % 4]);
-    //    }
+            case FieldSide.West:
+                corners[0] = center + new Vector3(-halfWidth, 0, -halfDepth);
+                corners[1] = center + new Vector3(-halfWidth, 0, halfDepth);
+                corners[2] = center + new Vector3(-(halfWidth + spawnDistance), 0, halfDepth);
+                corners[3] = center + new Vector3(-(halfWidth + spawnDistance), 0, -halfDepth);
+                break;
+        }
 
-    //    // Draw spawn zones (red) on all 3 open sides
-    //    Gizmos.color = Color.red;
-    //    FieldSide[] availableSides = GetAvailableSpawnSides();
+        return corners;
+    }
 
-    //    foreach (FieldSide side in availableSides)
-    //    {
-    //        Vector3[] spawnCorners = GetSpawnZoneCorners(center, halfWidth, halfDepth, side);
+    // Debug visualization in Scene view
+    private void OnDrawGizmosSelected()
+    {
+        if (fieldCenter == null) return;
 
-    //        for (int i = 0; i < 4; i++)
-    //        {
-    //            Gizmos.DrawLine(spawnCorners[i], spawnCorners[(i + 1) % 4]);
-    //        }
-    //    }
+        Vector3 center = fieldCenter.position;
+        float halfWidth = fieldSize.x / 2f;
+        float halfDepth = fieldSize.y / 2f;
 
-    //    // draw the protected side (blauw = barn kant) - only the edge line
-    //    Gizmos.color = Color.blue;
-    //    Vector3[] barnEdge = GetProtectedEdge(center, halfWidth, halfDepth, protectedSide);
-    //    Gizmos.DrawLine(barnEdge[0], barnEdge[1]);
-    //}
+        // Draw the field (green)
+        Gizmos.color = Color.green;
+        Vector3[] fieldCorners = new Vector3[4]
+        {
+            center + new Vector3(-halfWidth, 0, -halfDepth),
+            center + new Vector3(halfWidth, 0, -halfDepth),
+            center + new Vector3(halfWidth, 0, halfDepth),
+            center + new Vector3(-halfWidth, 0, halfDepth)
+        };
+
+        for (int i = 0; i < 4; i++)
+        {
+            Gizmos.DrawLine(fieldCorners[i], fieldCorners[(i + 1) % 4]);
+        }
+
+        // Draw spawn zones (red) on all 3 open sides
+        Gizmos.color = Color.red;
+        FieldSide[] availableSides = GetAvailableSpawnSides();
+
+        foreach (FieldSide side in availableSides)
+        {
+            Vector3[] spawnCorners = GetSpawnZoneCorners(center, halfWidth, halfDepth, side);
+
+            for (int i = 0; i < 4; i++)
+            {
+                Gizmos.DrawLine(spawnCorners[i], spawnCorners[(i + 1) % 4]);
+            }
+        }
+
+        // draw the protected side (blauw = barn kant) - only the edge line
+        Gizmos.color = Color.blue;
+        Vector3[] barnEdge = GetProtectedEdge(center, halfWidth, halfDepth, protectedSide);
+        Gizmos.DrawLine(barnEdge[0], barnEdge[1]);
+    }
 }
 
 public enum GamePhase

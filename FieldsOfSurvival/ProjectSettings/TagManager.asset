@@ -9,6 +9,7 @@ TagManager:
   - Crop
   - Toolbar
   - Potato
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - Plantable
   - Water
   - UI
-  - 
+  - Ground
   - 
   - 
   - 

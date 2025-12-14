@@ -24,10 +24,7 @@ public class Barn : MonoBehaviour
 
     private void OnBarnDestroyed()
     {
-        Debug.Log("BARN DESTROYED! GAME OVER!");
-        //add game over logic
-        //GameManager.Instance.GameOver();
-
+        GameManager.Instance.GameOver();
         Destroy(gameObject, 2f);
     }
 
