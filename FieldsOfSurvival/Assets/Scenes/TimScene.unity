@@ -900,6 +900,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6608994816136074841, guid: 1e758561f03306f4f9d5128579abfaea, type: 3}
     - target: {fileID: 5778075381888006613, guid: a54c5794d44fffc43b093686788e174b, type: 3}
+      propertyPath: fakeCropPrefab
+      value: 
+      objectReference: {fileID: 3330576357324624627, guid: e93812bf14c986d488753ca94545faa4, type: 3}
+    - target: {fileID: 5778075381888006613, guid: a54c5794d44fffc43b093686788e174b, type: 3}
       propertyPath: toolbarManager
       value: 
       objectReference: {fileID: 1415880222}
@@ -914,6 +918,14 @@ PrefabInstance:
     - target: {fileID: 5778075381888006613, guid: a54c5794d44fffc43b093686788e174b, type: 3}
       propertyPath: groundLayer.m_Bits
       value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 5778075381888006613, guid: a54c5794d44fffc43b093686788e174b, type: 3}
+      propertyPath: defensiveCropPrefab
+      value: 
+      objectReference: {fileID: 772043942480770203, guid: 2d5dbc33ec1f650478d2e53cb9b98ef7, type: 3}
+    - target: {fileID: 5778075381888006613, guid: a54c5794d44fffc43b093686788e174b, type: 3}
+      propertyPath: fakeCropHeightOffset
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 5778075381888006613, guid: a54c5794d44fffc43b093686788e174b, type: 3}
       propertyPath: plantableLayer.m_Bits

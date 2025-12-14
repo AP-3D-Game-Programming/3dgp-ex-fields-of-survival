@@ -34,11 +34,17 @@ public class PlayerMovement_FP : MonoBehaviour
 
     [Header("Traps")]
     [SerializeField] private GameObject bearTrapPrefab;
+    [SerializeField] private GameObject fakeCropPrefab;
+    [SerializeField] private GameObject defensiveCropPrefab;
     [SerializeField] private float maxTrapPlacementDistance = 10f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float trapHeightOffset = 0.1f;
+    [SerializeField] private float fakeCropHeightOffset = 0.1f;
+    [SerializeField] private float defensiveCropHeightOffset = 0.4f;
     [SerializeField] private bool unlimitedTraps = true;
     [SerializeField] private int trapCount = 5;
+    [SerializeField] private int fakeCropCount = 5;
+    [SerializeField] private int defensiveCropCount = 5;
 
     private CharacterController cc;
     private Vector3 velocity;
@@ -220,6 +226,17 @@ public class PlayerMovement_FP : MonoBehaviour
         {
             TryPlaceTrap();
         }
+        // FakeCrop placement (Y key)
+        if (Keyboard.current.yKey.wasPressedThisFrame)
+        {
+            TryPlaceFakeCrop();
+        }
+
+        // DefensiveCrop placement (U key)
+        if (Keyboard.current.uKey.wasPressedThisFrame)
+        {
+            TryPlaceDefensiveCrop();
+        }
 
         // Plant - now uses toolbar system
         if (Keyboard.current.fKey.wasPressedThisFrame)
@@ -385,6 +402,76 @@ public class PlayerMovement_FP : MonoBehaviour
             if (!unlimitedTraps)
             {
                 trapCount--;
+            }
+        }
+    }
+
+    private void TryPlaceFakeCrop()
+    {
+        // Check if we have fake crops available
+        if (!unlimitedTraps && fakeCropCount <= 0)
+        {
+            Debug.Log("No fake crops remaining!");
+            return;
+        }
+
+        if (fakeCropPrefab == null || cameraTransform == null)
+            return;
+
+        // Raycast from camera forward
+        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, maxTrapPlacementDistance, groundLayer))
+        {
+            // Found ground, place fake crop
+            Vector3 spawnPosition = hit.point + Vector3.up * fakeCropHeightOffset;
+
+            // Spawn the fake crop
+            GameObject fakeCrop = Instantiate(fakeCropPrefab, spawnPosition, Quaternion.identity);
+
+            // Optional: Align to ground normal
+            fakeCrop.transform.up = hit.normal;
+
+            // Decrease count
+            if (!unlimitedTraps)
+            {
+                fakeCropCount--;
+            }
+        }
+    }
+
+    private void TryPlaceDefensiveCrop()
+    {
+        // Check if we have defensive crops available
+        if (!unlimitedTraps && defensiveCropCount <= 0)
+        {
+            Debug.Log("No defensive crops remaining!");
+            return;
+        }
+
+        if (defensiveCropPrefab == null || cameraTransform == null)
+            return;
+
+        // Raycast from camera forward
+        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, maxTrapPlacementDistance, groundLayer))
+        {
+            // Found ground, place defensive crop
+            Vector3 spawnPosition = hit.point + Vector3.up * defensiveCropHeightOffset;
+
+            // Spawn the defensive crop
+            GameObject defensiveCrop = Instantiate(defensiveCropPrefab, spawnPosition, Quaternion.identity);
+
+            // Optional: Align to ground normal
+            defensiveCrop.transform.up = hit.normal;
+
+            // Decrease count
+            if (!unlimitedTraps)
+            {
+                defensiveCropCount--;
             }
         }
     }

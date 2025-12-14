@@ -6,7 +6,7 @@ public enum CropType
     Potato = 1,
 }
 
-public class Crop : MonoBehaviour
+public class Crop : MonoBehaviour, ITargetable
 {
     [Header("Type")]
     [SerializeField] private CropType cropType = CropType.Potato;

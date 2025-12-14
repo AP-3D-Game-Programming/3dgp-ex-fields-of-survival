@@ -8,7 +8,7 @@ public class FarmManager : MonoBehaviour
     [Header("Barn Reference")]
     [SerializeField] private Transform barn;
 
-    private List<Crop> plants = new List<Crop>();
+    private List<ITargetable> plants = new List<ITargetable>();
 
     private void Awake()
     {
@@ -23,23 +23,23 @@ public class FarmManager : MonoBehaviour
         }
     }
 
-    public void RegisterPlant(Crop plant)
+    public void RegisterPlant(ITargetable plant)
     {
         if (plant == null) return;
         if (!plants.Contains(plant))
             plants.Add(plant);
     }
 
-    public void RemovePlant(Crop plant)
+    public void RemovePlant(ITargetable plant)
     {
         if (plant == null) return;
         if (plants.Contains(plant))
             plants.Remove(plant);
     }
 
-    public Crop GetClosestPlant(Vector3 referencePosition)
+    public Transform GetClosestPlant(Vector3 referencePosition)
     {
-        Crop closestPlant = null;
+        Transform closestPlant = null;
         float closestDistance = float.MaxValue;
 
         for (int i = plants.Count - 1; i >= 0; i--)
@@ -56,7 +56,7 @@ public class FarmManager : MonoBehaviour
             float distanceToPlant = Vector3.Distance(referencePosition, plant.transform.position);
             if (distanceToPlant < closestDistance)
             {
-                closestPlant = plant;
+                closestPlant = plant.transform;
                 closestDistance = distanceToPlant;
             }
         }

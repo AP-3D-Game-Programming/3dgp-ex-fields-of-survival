@@ -56,13 +56,13 @@ public abstract class Enemy : MonoBehaviour
 
         // HIERARCHY: first crops, then barn
         // Always re-evaluate closest plant to allow retargeting when new crops are planted
-        Crop closestCrop = FarmManager.Instance.GetClosestPlant(transform.position);
+        Transform closestCrop = FarmManager.Instance.GetClosestPlant(transform.position);
 
-        if (closestCrop != null && !closestCrop.IsDead())
+        if (closestCrop != null)
         {
             // Crops available (PRIORITY)
             targetingBarn = false;
-            currentTarget = closestCrop.transform;
+            currentTarget = closestCrop;
             currentDamageable = closestCrop.GetComponent<IDamageable>();
 
             Vector3 toTarget = currentTarget.position - transform.position;
@@ -143,11 +143,11 @@ public abstract class Enemy : MonoBehaviour
     {
         if (FarmManager.Instance != null)
         {
-            Crop closestCrop = FarmManager.Instance.GetClosestPlant(transform.position);
+            Transform closestCrop = FarmManager.Instance.GetClosestPlant(transform.position);
 
             if (closestCrop != null)
             {
-                currentTarget = closestCrop.transform;
+                currentTarget = closestCrop;
                 currentDamageable = closestCrop.GetComponent<IDamageable>();
                 targetingBarn = false;
             }
