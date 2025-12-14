@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8198309afc2efd64d9abbb316ab9e805, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18.707737
+      value: -0.91
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8198309afc2efd64d9abbb316ab9e805, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.8975508
+      value: 0.03055
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8198309afc2efd64d9abbb316ab9e805, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.991845
+      value: 29.17
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8198309afc2efd64d9abbb316ab9e805, type: 3}
       propertyPath: m_LocalRotation.w
@@ -81,6 +81,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8198309afc2efd64d9abbb316ab9e805, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8443977408226947328}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8198309afc2efd64d9abbb316ab9e805, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8738535922793068029}
     - targetCorrespondingSourceObject: {fileID: -8391222552659086748, guid: 8198309afc2efd64d9abbb316ab9e805, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2357792781827214288}
@@ -129,7 +132,25 @@ MonoBehaviour:
   stopDistance: 3
   barnStopDistance: 5
   attackDamage: 3
+--- !u!114 &8738535922793068029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392298293043560599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01f9fb50543b68048845469e0490afba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 50
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1449989438933405602 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8391222552659086748, guid: 8198309afc2efd64d9abbb316ab9e805, type: 3}
@@ -170,6 +191,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1736629443537852973}
     m_Modifications:
+    - target: {fileID: -4921243282883988856, guid: 613348e7f5209b3469756bf27ece31b0, type: 3}
+      propertyPath: health
+      value: 
+      objectReference: {fileID: 8738535922793068029}
+    - target: {fileID: -4921243282883988856, guid: 613348e7f5209b3469756bf27ece31b0, type: 3}
+      propertyPath: offset.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 350657351644338801, guid: 613348e7f5209b3469756bf27ece31b0, type: 3}
       propertyPath: enemy
       value: 

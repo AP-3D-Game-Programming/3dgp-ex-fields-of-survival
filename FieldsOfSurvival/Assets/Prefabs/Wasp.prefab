@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6044873459432572053}
     m_Modifications:
+    - target: {fileID: -4921243282883988856, guid: 613348e7f5209b3469756bf27ece31b0, type: 3}
+      propertyPath: health
+      value: 
+      objectReference: {fileID: 2760260209812001595}
+    - target: {fileID: -4921243282883988856, guid: 613348e7f5209b3469756bf27ece31b0, type: 3}
+      propertyPath: offset.z
+      value: -0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 350657351644338801, guid: 613348e7f5209b3469756bf27ece31b0, type: 3}
       propertyPath: enemy
       value: 
@@ -90,7 +98,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7389978680072649649, guid: 613348e7f5209b3469756bf27ece31b0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7389978680072649649, guid: 613348e7f5209b3469756bf27ece31b0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -136,15 +144,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 25.185154
+      value: 1.4253323
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.43
+      value: 0.025566697
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13.908405
+      value: 30.517193
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -195,6 +203,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9108131821198885929}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2760260209812001595}
     - targetCorrespondingSourceObject: {fileID: 8829414129297429972, guid: f6649ecbd595cc045b553bbebe4ffce6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2589659309461210835}
@@ -275,4 +286,22 @@ MonoBehaviour:
   stopDistance: 3
   barnStopDistance: 5
   attackDamage: 3
+--- !u!114 &2760260209812001595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6388466910691466799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01f9fb50543b68048845469e0490afba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 30
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
