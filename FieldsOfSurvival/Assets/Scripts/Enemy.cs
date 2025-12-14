@@ -192,6 +192,13 @@ public abstract class Enemy : MonoBehaviour
             animator.SetTrigger("Death");
         }
 
+        // Disable collider immediately so dead enemies don't block shots
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        foreach (Collider col in colliders)
+        {
+            col.enabled = false;
+        }
+
         // Disable this script so enemy stops moving/attacking
         enabled = false;
 
