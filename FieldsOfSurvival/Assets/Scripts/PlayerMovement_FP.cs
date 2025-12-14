@@ -32,6 +32,14 @@ public class PlayerMovement_FP : MonoBehaviour
     [SerializeField] private Color crosshairTarget = Color.green;
     [SerializeField] private Color crosshairEnemy = Color.red;
 
+    [Header("Traps")]
+    [SerializeField] private GameObject bearTrapPrefab;
+    [SerializeField] private float maxTrapPlacementDistance = 10f;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float trapHeightOffset = 0.1f;
+    [SerializeField] private bool unlimitedTraps = true;
+    [SerializeField] private int trapCount = 5;
+
     private CharacterController cc;
     private Vector3 velocity;
     private bool isGrounded;
@@ -207,6 +215,11 @@ public class PlayerMovement_FP : MonoBehaviour
                 }
             }
         }
+        // Trap placement (T key)
+        if (Keyboard.current.tKey.wasPressedThisFrame)
+        {
+            TryPlaceTrap();
+        }
 
         // Plant - now uses toolbar system
         if (Keyboard.current.fKey.wasPressedThisFrame)
@@ -341,7 +354,56 @@ public class PlayerMovement_FP : MonoBehaviour
             }
         }
     }
+    private void TryPlaceTrap()
+    {
+        // Check if we have traps available
+        if (!unlimitedTraps && trapCount <= 0)
+        {
+            Debug.Log("No traps remaining!");
+            return;
+        }
 
+        if (bearTrapPrefab == null || cameraTransform == null)
+            return;
+
+        // Raycast from camera forward
+        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, maxTrapPlacementDistance, groundLayer))
+        {
+            // Found ground, place trap
+            Vector3 spawnPosition = hit.point + Vector3.up * trapHeightOffset;
+
+            // Spawn the trap
+            GameObject trap = Instantiate(bearTrapPrefab, spawnPosition, Quaternion.identity);
+
+            // Optional: Align trap to ground normal
+            trap.transform.up = hit.normal;
+
+            // Decrease trap count
+            if (!unlimitedTraps)
+            {
+                trapCount--;
+            }
+        }
+    }
+
+    // Public methods for trap inventory management
+    public void AddTraps(int amount)
+    {
+        trapCount += amount;
+    }
+
+    public int GetTrapCount()
+    {
+        return trapCount;
+    }
+
+    public bool HasTraps()
+    {
+        return unlimitedTraps || trapCount > 0;
+    }
     private void OnGUI()
     {
         // Draw crosshair
