@@ -129,6 +129,7 @@ public class GameManager : MonoBehaviour
         }
 
         isSpawning = false;
+        CheckWaveComplete();
     }
 
     private void SpawnRandomEnemy()
@@ -268,15 +269,18 @@ public class GameManager : MonoBehaviour
     public void OnEnemyKilled()
     {
         remainingEnemies--;
+        CheckWaveComplete();
+    }
 
-        // Only complete round when all enemies spawned AND all killed
+    private void CheckWaveComplete()
+    {
+        // Only complete round when all enemies spawned + killed
         if (remainingEnemies <= 0 && !isSpawning)
         {
             // All enemies dead, start next round
             currentRound++;
             OnRoundChanged?.Invoke(currentRound);
 
-            Debug.Log($"All enemies defeated! Starting Round {currentRound}");
             StartPlantPhase();
         }
     }

@@ -1432,7 +1432,7 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 8443977408226947328, guid: 8bd82f8671e3d5a42afdd6dbc1d5ff09, type: 3}
   - {fileID: 9108131821198885929, guid: a778a336d71959a41b998809875e0abe, type: 3}
-  spawnDelay: 3
+  spawnDelay: 1
   nightTransitionTime: 5
   fieldCenter: {fileID: 1839964220}
   fieldSize: {x: 30, y: 30}
