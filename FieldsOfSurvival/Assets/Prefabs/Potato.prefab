@@ -74,6 +74,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c37446e1dd6629b49ad67ba68255eafc, type: 3}
       insertIndex: -1
       addedObject: {fileID: -7836246093520641594}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c37446e1dd6629b49ad67ba68255eafc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -695036629861126308}
   m_SourcePrefab: {fileID: 100100000, guid: c37446e1dd6629b49ad67ba68255eafc, type: 3}
 --- !u!1 &4576189034432087729 stripped
 GameObject:
@@ -108,7 +111,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dfd71b484420b242971ce5738e13551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crop
-  maxHP: 20
   cropType: 1
   harvestYield: 1
   bonusDropChance: 0.25
+--- !u!114 &-695036629861126308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4576189034432087729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01f9fb50543b68048845469e0490afba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHealth: 20
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []

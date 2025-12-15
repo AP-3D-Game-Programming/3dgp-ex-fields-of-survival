@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &687481205542666603
 Transform:
   m_ObjectHideFlags: 0
@@ -47,6 +47,6 @@ MonoBehaviour:
   icon: {fileID: 0}
   itemName: Potato
   maxStackSize: 99
-  currentAmount: 38
+  currentAmount: 33
   cropPrefab: {fileID: 4576189034432087729, guid: b1efee7b6d6020e4185e34d3d59d518c, type: 3}
   cropType: 1
