@@ -295,6 +295,7 @@ MonoBehaviour:
   - {fileID: 8443977408226947328, guid: 8bd82f8671e3d5a42afdd6dbc1d5ff09, type: 3}
   - {fileID: 9108131821198885929, guid: a778a336d71959a41b998809875e0abe, type: 3}
   spawnDelay: 3
+  nightTransitionTime: 5
   fieldCenter: {fileID: 1842738950}
   fieldSize: {x: 30, y: 30}
   protectedSide: 1
@@ -310,6 +311,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnRoundChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  isGameOver: 0
+  OnGameOver:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &275729185
@@ -494,6 +499,7 @@ GameObject:
   m_Component:
   - component: {fileID: 737102520}
   - component: {fileID: 737102519}
+  - component: {fileID: 737102521}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
@@ -510,7 +516,7 @@ AudioSource:
   m_GameObject: {fileID: 737102518}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 9214748047862098467, guid: 2b241cfb703938948bb9ea87ba5daf78, type: 2}
+  OutputAudioMixerGroup: {fileID: -3668620896068773006, guid: 2b241cfb703938948bb9ea87ba5daf78, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 28dc150e92aa7dc45acb395ec61b2bc6, type: 3}
   m_PlayOnAwake: 1
@@ -613,6 +619,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &737102521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737102518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbbe7dd760d760c4a8617723772104e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MusicVolume
+  musicSource: {fileID: 737102519}
+  volumeSlider: {fileID: 0}
 --- !u!1 &741181179
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,6 +798,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74c4efcbac2dbc243b62fe8782289301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FarmManager
+  barn: {fileID: 0}
 --- !u!4 &955823635
 Transform:
   m_ObjectHideFlags: 0
