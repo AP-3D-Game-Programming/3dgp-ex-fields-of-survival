@@ -1,16 +1,14 @@
 using UnityEngine;
 
-public class SettingsToggle : MonoBehaviour
+public class PauseMenu : MonoBehaviour
 {
-    public GameObject panelA;
-    public GameObject panelB;
+    public GameObject canvas;
 
-    bool isOpen = false;
+    bool isOpen;
 
     void Start()
     {
-        panelA.SetActive(false);
-        panelB.SetActive(false);
+        canvas.SetActive(false);
     }
 
     void Update()
@@ -19,8 +17,7 @@ public class SettingsToggle : MonoBehaviour
         {
             isOpen = !isOpen;
 
-            panelA.SetActive(isOpen);
-            panelB.SetActive(isOpen);
+            canvas.SetActive(isOpen);
 
             Cursor.visible = isOpen;
             Cursor.lockState = isOpen ? CursorLockMode.None : CursorLockMode.Locked;
