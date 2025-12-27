@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 33953254}
   - component: {fileID: 33953253}
   - component: {fileID: 33953252}
+  - component: {fileID: 33953255}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -198,6 +199,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &33953255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33953251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 828b37415a6ba7540a32addf2f685729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencyManager
+  startingCoins: 10
+--- !u!114 &189154255 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2250627781859155357, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+  m_PrefabInstance: {fileID: 1458477274}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &267018574 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2976901093655754132, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+  m_PrefabInstance: {fileID: 1458477274}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!4 &441416747 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3954743708030227398, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
@@ -312,6 +348,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 859581952}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &682820190 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5596771184620469003, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+  m_PrefabInstance: {fileID: 1458477274}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &859581949
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,6 +612,11 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &1003511515 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2579767201093437059, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+  m_PrefabInstance: {fileID: 1458477274}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1103018182
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,6 +821,46 @@ PrefabInstance:
     - target: {fileID: 1145447135148422358, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
       propertyPath: m_Name
       value: Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302292534627998845, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: promptText
+      value: 
+      objectReference: {fileID: 682820190}
+    - target: {fileID: 1302292534627998845, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: purchaseCost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149762481401520345, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3133513035445105688, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: promptText
+      value: 
+      objectReference: {fileID: 267018574}
+    - target: {fileID: 3133513035445105688, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: purchaseCost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3133513035445105688, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: interactionPrompt
+      value: 
+      objectReference: {fileID: 1003511515}
+    - target: {fileID: 3768506306581694611, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4016072843229129305, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6679372383919840040, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: promptText
+      value: 
+      objectReference: {fileID: 189154255}
+    - target: {fileID: 6679372383919840040, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: purchaseCost
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7829973228269817824, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 /// <summary>
 /// Plaats dit script bij elke gap in je basis map hekken.
@@ -9,6 +10,7 @@ public class FieldGate : MonoBehaviour
 {
     [Header("Gate Settings")]
     [SerializeField] private string gateName = "North Field";
+    [SerializeField] private int purchaseCost = 10;
     [SerializeField] private bool isUnlocked = false;
 
     [Header("Invisible Wall")]
@@ -23,14 +25,17 @@ public class FieldGate : MonoBehaviour
 
     [Header("Visual Feedback")]
     [SerializeField] private GameObject lockedIndicator;
-    [SerializeField] private GameObject interactionPrompt;   // "Press B" UI
+    [SerializeField] private GameObject interactionPrompt;
+    [SerializeField] private TMP_Text promptText;  //TextMeshPro/TextMeshProUGUI
 
     [Header("Events")]
     public UnityEvent OnGateUnlocked;
+    public UnityEvent OnPurchaseFailed;
     public UnityEvent<GameObject> OnExtensionSpawned;
 
     public bool IsUnlocked => isUnlocked;
     public string GateName => gateName;
+    public int PurchaseCost => purchaseCost;
 
     private bool playerInRange = false;
     private GameObject spawnedExtension;
@@ -56,7 +61,7 @@ public class FieldGate : MonoBehaviour
     {
         if (playerInRange && !isUnlocked && Input.GetKeyDown(unlockKey))
         {
-            Unlock();
+            TryPurchase();
         }
     }
 
@@ -67,7 +72,10 @@ public class FieldGate : MonoBehaviour
             playerInRange = true;
 
             if (!isUnlocked && interactionPrompt != null)
+            {
+                UpdatePromptText();
                 interactionPrompt.SetActive(true);
+            }
         }
     }
 
@@ -79,6 +87,39 @@ public class FieldGate : MonoBehaviour
 
             if (interactionPrompt != null)
                 interactionPrompt.SetActive(false);
+        }
+    }
+
+    private void UpdatePromptText()
+    {
+        if (promptText == null) return;
+
+        int currentCoins = CurrencyManager.Instance != null ? CurrencyManager.Instance.Coins : 0;
+        bool canAfford = currentCoins >= purchaseCost;
+
+        promptText.text = $"Press B to Buy\n{purchaseCost} coins ({currentCoins})";
+        promptText.color = canAfford ? Color.white : Color.red;
+    }
+
+    private void TryPurchase()
+    {
+        if (isUnlocked) return;
+
+        if (CurrencyManager.Instance == null)
+        {
+            Debug.LogWarning("CurrencyManager not found! Unlocking for free.");
+            Unlock();
+            return;
+        }
+
+        if (CurrencyManager.Instance.TrySpend(purchaseCost))
+        {
+            Unlock();
+        }
+        else
+        {
+            Debug.Log($"Cannot afford {gateName} - Need {purchaseCost} coins, have {CurrencyManager.Instance.Coins}");
+            OnPurchaseFailed?.Invoke();
         }
     }
 
