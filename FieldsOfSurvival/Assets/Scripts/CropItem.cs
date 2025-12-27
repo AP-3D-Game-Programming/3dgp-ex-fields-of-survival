@@ -65,6 +65,6 @@ public class CropItem : ToolbarItem
 
     public override string GetDisplayText()
     {
-        return currentAmount > 0 ? currentAmount.ToString() : "0";
+        return currentAmount > 0 ? currentAmount.ToString() : "";
     }
 }

@@ -214,4 +214,14 @@ public class ToolbarManager : MonoBehaviour
 
         return null;
     }
+
+    public ToolbarItem GetItemAt(int index)
+    {
+        if (items == null) return null;
+        if (index < 0 || index >= items.Length) return null;
+        return items[index];
+    }
+
+    public int ItemCount => items != null ? items.Length : 0;
+
 }

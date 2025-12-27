@@ -515,25 +515,5 @@ public class PlayerMovement_FP : MonoBehaviour
         GUI.Label(new Rect(x - crosshairSize * 0.25f, y - crosshairSize * 0.5f, crosshairSize * 2f, crosshairSize), "+", style);
 
         GUI.color = prevColor;
-
-        // Display current toolbar item
-        if (toolbarManager != null && toolbarManager.CurrentItem != null)
-        {
-            GUIStyle itemStyle = new GUIStyle(GUI.skin.label)
-            {
-                alignment = TextAnchor.LowerCenter,
-                fontSize = 16,
-                normal = { textColor = Color.white }
-            };
-
-            string displayText = toolbarManager.CurrentItem.itemName;
-            string amount = toolbarManager.CurrentItem.GetDisplayText();
-            if (!string.IsNullOrEmpty(amount))
-            {
-                displayText += $" x{amount}";
-            }
-
-            GUI.Label(new Rect(0, Screen.height - 50, Screen.width, 40), displayText, itemStyle);
-        }
     }
 }
