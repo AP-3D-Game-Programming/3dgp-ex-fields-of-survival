@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c1a009d1cc5d043a8957ebe99a8071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponItem
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: f198a546552aff042bcac80795424cb2, type: 3}
   itemName: Glock
   maxAmmo: 999
   currentAmmo: 989
