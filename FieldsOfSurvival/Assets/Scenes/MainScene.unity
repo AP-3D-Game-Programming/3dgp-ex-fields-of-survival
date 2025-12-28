@@ -447,6 +447,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_text
+      value: Defensive Crop
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_fontSize
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5954922526111900347, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_SizeDelta.x
       value: 48
@@ -2167,8 +2187,24 @@ PrefabInstance:
       value: Gun
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_fontSize
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_margin.x
-      value: -70
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5954922526111900347, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2393,6 +2429,34 @@ PrefabInstance:
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_text
       value: Trap
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_fontSize
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_margin.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_margin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_margin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5954922526111900347, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2748,6 +2812,26 @@ PrefabInstance:
     - target: {fileID: 3513860124910868278, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_text
+      value: Fake Crop
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_fontSize
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5954922526111900347, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_SizeDelta.x
@@ -4093,8 +4177,24 @@ PrefabInstance:
       value: Potato
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_fontSize
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_margin.x
-      value: -40
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5954922526111900347, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_SizeDelta.x
@@ -4438,12 +4538,24 @@ PrefabInstance:
       value: Carrot
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_fontSize
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_margin.x
-      value: -40
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_HorizontalAlignment
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5954922526111900347, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_SizeDelta.x
