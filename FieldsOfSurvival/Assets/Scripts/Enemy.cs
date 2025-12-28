@@ -207,6 +207,12 @@ public abstract class Enemy : MonoBehaviour
             GameManager.Instance.OnEnemyKilled();
         }
 
+        TutorialManager tutorial = FindObjectOfType<TutorialManager>();
+        if (tutorial != null)
+        {
+            tutorial.OnTutorialEnemyKilled();
+        }
+
         // Destroy after animation
         Destroy(gameObject, 2f);
 
