@@ -173,6 +173,95 @@ public class ToolbarManager : MonoBehaviour
         return false;
     }
 
+    // ==================== PLACEABLE ITEM METHODS ====================
+
+    // Get the placeable prefab from the currently selected item if it's a PlaceableItem
+    public GameObject GetCurrentPlaceablePrefab()
+    {
+        if (CurrentItem is PlaceableItem placeableItem && placeableItem.Amount > 0)
+        {
+            return placeableItem.placeablePrefab;
+        }
+        return null;
+    }
+
+    // Get the placeable type from the currently selected item
+    public PlaceableType? GetCurrentPlaceableType()
+    {
+        if (CurrentItem is PlaceableItem placeableItem && placeableItem.Amount > 0)
+        {
+            return placeableItem.placeableType;
+        }
+        return null;
+    }
+
+    // Consume one placeable from current item when placing
+    public bool TryConsumePlaceable()
+    {
+        if (CurrentItem is PlaceableItem placeableItem && placeableItem.Amount > 0)
+        {
+            placeableItem.ConsumeSingleItem();
+            return true;
+        }
+        return false;
+    }
+
+    // Try to add placeables to inventory (for pickups, crafting, etc.)
+    public bool TryAddPlaceable(PlaceableType placeableType, int amount = 1)
+    {
+        if (amount <= 0) return false;
+
+        PlaceableItem firstEmptySlot = null;
+
+        // 1) Try to add to existing stack of same placeable type
+        foreach (var item in items)
+        {
+            if (item is PlaceableItem placeableItem)
+            {
+                if (placeableItem.placeableType == placeableType)
+                {
+                    bool addedAny = placeableItem.AddToStack(amount);
+                    if (addedAny)
+                    {
+                        Debug.Log($"Added {amount} {placeableType} to inventory. New amount: {placeableItem.Amount}");
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Log($"No room to add {amount} {placeableType}; stack at max ({placeableItem.Amount}/{placeableItem.maxStackSize})");
+                        return false;
+                    }
+                }
+
+                // keep the first empty stack (Amount == 0) as a fallback
+                if (firstEmptySlot == null && placeableItem.Amount == 0)
+                    firstEmptySlot = placeableItem;
+            }
+        }
+
+        // 2) If no existing stack, use first empty PlaceableItem slot and set its type
+        if (firstEmptySlot != null)
+        {
+            firstEmptySlot.placeableType = placeableType;
+            bool added = firstEmptySlot.AddToStack(amount);
+            if (added)
+            {
+                Debug.Log($"Created new stack and added {amount} {placeableType}. New amount: {firstEmptySlot.Amount}");
+                return true;
+            }
+            else
+            {
+                Debug.Log($"Failed to add to new stack for {placeableType}");
+                return false;
+            }
+        }
+
+        Debug.Log($"No room for more {placeableType} items");
+        return false;
+    }
+
+    // ==================== END PLACEABLE METHODS ====================
+
     // ----------------- Defaults (no persistence) -----------------
     // Ensure weapons start with full magazines and carrot slots have at least 1.
     private void InitializeDefaults()
@@ -195,6 +284,7 @@ public class ToolbarManager : MonoBehaviour
                     crop.SetAmount(1);
                 }
             }
+            // PlaceableItems keep their configured starting amounts
         }
     }
 
@@ -223,5 +313,4 @@ public class ToolbarManager : MonoBehaviour
     }
 
     public int ItemCount => items != null ? items.Length : 0;
-
 }

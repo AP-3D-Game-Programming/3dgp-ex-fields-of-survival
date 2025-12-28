@@ -32,19 +32,12 @@ public class PlayerMovement_FP : MonoBehaviour
     [SerializeField] private Color crosshairTarget = Color.green;
     [SerializeField] private Color crosshairEnemy = Color.red;
 
-    [Header("Traps")]
-    [SerializeField] private GameObject bearTrapPrefab;
-    [SerializeField] private GameObject fakeCropPrefab;
-    [SerializeField] private GameObject defensiveCropPrefab;
-    [SerializeField] private float maxTrapPlacementDistance = 10f;
+    [Header("Placement Settings")]
+    [SerializeField] private float maxPlacementDistance = 10f;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float trapHeightOffset = 0.1f;
+    [SerializeField] private float bearTrapHeightOffset = 0.1f;
     [SerializeField] private float fakeCropHeightOffset = 0.1f;
     [SerializeField] private float defensiveCropHeightOffset = 0.4f;
-    [SerializeField] private bool unlimitedTraps = true;
-    [SerializeField] private int trapCount = 5;
-    [SerializeField] private int fakeCropCount = 5;
-    [SerializeField] private int defensiveCropCount = 5;
 
     private CharacterController cc;
     private Vector3 velocity;
@@ -221,276 +214,205 @@ public class PlayerMovement_FP : MonoBehaviour
                 }
             }
         }
-        // Trap placement (T key)
-        if (Keyboard.current.tKey.wasPressedThisFrame)
-        {
-            TryPlaceTrap();
-        }
-        // FakeCrop placement (Y key)
-        if (Keyboard.current.yKey.wasPressedThisFrame)
-        {
-            TryPlaceFakeCrop();
-        }
 
-        // DefensiveCrop placement (U key)
-        if (Keyboard.current.uKey.wasPressedThisFrame)
-        {
-            TryPlaceDefensiveCrop();
-        }
-
-        // Plant - now uses toolbar system
+        // Place item (F key) - works for both CropItem and PlaceableItem
         if (Keyboard.current.fKey.wasPressedThisFrame)
         {
-            if (lookedSoil && toolbarManager != null)
-            {
-                GameObject prefab = toolbarManager.GetCurrentCropPrefab();
-                CropType? cropType = toolbarManager.GetCurrentCropType();
-
-                if (prefab == null || !cropType.HasValue)
-                {
-                    Debug.Log("No crop selected or out of crops!");
-                    return;
-                }
-
-                // If we have a Soil component, plant there
-                if (lookedSoilComponent != null)
-                {
-                    if (!lookedSoilComponent.HasCrop())
-                    {
-                        Vector3 spawnPos;
-                        if (lastHit.collider != null)
-                        {
-                            spawnPos = GetColliderTopCenter(lastHit.collider, 0.05f);
-                        }
-                        else
-                        {
-                            spawnPos = lookedSoilComponent.GetPlantCenterPosition(0.05f);
-                        }
-
-                        lookedSoilComponent.PlantCrop(prefab, spawnPos);
-
-                        // Consume the crop from inventory
-                        toolbarManager.TryConsumeCrop();
-                    }
-                    else
-                    {
-                        Debug.Log("Soil already occupied.");
-                    }
-
-                    return;
-                }
-
-                // Fallback: plant at raycast hit point
-                Vector3 fallbackSpawn = lastHit.point + lastHit.normal * 0.05f;
-
-                Collider[] overlaps = Physics.OverlapSphere(fallbackSpawn, plantClearRadius);
-                foreach (var c in overlaps)
-                {
-                    if (c.GetComponentInParent<Crop>() != null || c.GetComponentInChildren<Crop>() != null)
-                    {
-                        Debug.Log("Too close to another crop!");
-                        return;
-                    }
-                }
-
-                GameObject go = Instantiate(prefab, fallbackSpawn, Quaternion.identity);
-                Crop cropComp = go.GetComponent<Crop>();
-                if (cropComp != null)
-                {
-                    cropComp.Initialize(cropType.Value);
-                }
-
-                var grow = go.GetComponent<GrowCropScript>();
-                if (grow != null) grow.StartGrowing();
-
-                // Consume the crop from inventory
-                toolbarManager.TryConsumeCrop();
-            }
+            TryPlaceCurrentItem();
         }
 
         // Harvest
         if (Keyboard.current.hKey.wasPressedThisFrame)
         {
-            // Prefer harvesting via Soil component
-            if (lookedSoilComponent != null)
+            TryHarvest();
+        }
+    }
+
+    private void TryPlaceCurrentItem()
+    {
+        if (toolbarManager == null) return;
+
+        var currentItem = toolbarManager.CurrentItem;
+
+        // Check if it's a CropItem
+        if (currentItem is CropItem cropItem && cropItem.Amount > 0)
+        {
+            TryPlantCrop(cropItem);
+            return;
+        }
+
+        // Check if it's a PlaceableItem
+        if (currentItem is PlaceableItem placeableItem && placeableItem.Amount > 0)
+        {
+            TryPlacePlaceable(placeableItem);
+            return;
+        }
+
+        Debug.Log("No placeable item selected or item is empty!");
+    }
+
+    private void TryPlantCrop(CropItem cropItem)
+    {
+        if (!lookedSoil)
+        {
+            Debug.Log("Not looking at valid soil!");
+            return;
+        }
+
+        // Check if there's a Soil component with planting support
+        if (lookedSoilComponent != null)
+        {
+            if (!lookedSoilComponent.HasCrop())
             {
-                // Read crop info before harvesting so we can determine yield
-                Crop cropBeforeHarvest = lookedSoilComponent.GetComponentInChildren<Crop>();
-                if (cropBeforeHarvest != null)
+                Vector3 spawnPos;
+                if (lastHit.collider != null)
                 {
-                    int yield = cropBeforeHarvest.HarvestYield;
-                    bool harvested = lookedSoilComponent.TryHarvest();
-                    if (harvested && toolbarManager != null)
-                    {
-                        // Add multiple units based on crop's HarvestYield
-                        toolbarManager.TryAddCrop(cropBeforeHarvest.Type, yield);
-                    }
+                    spawnPos = GetColliderTopCenter(lastHit.collider, 0.05f);
                 }
                 else
                 {
-                    // No Crop component found; still attempt harvest (fallback behavior)
-                    bool harvested = lookedSoilComponent.TryHarvest();
-                    if (harvested && toolbarManager != null)
-                    {
-                        // Unknown type, nothing to add
-                    }
+                    spawnPos = lookedSoilComponent.GetPlantCenterPosition(0.05f);
                 }
 
+                lookedSoilComponent.PlantCrop(cropItem.cropPrefab, spawnPos);
+                toolbarManager.TryConsumeCrop();
+            }
+            else
+            {
+                Debug.Log("Soil already occupied.");
+            }
+            return;
+        }
+
+        // Fallback: direct placement at raycast hit point
+        Vector3 fallbackSpawn = lastHit.point + lastHit.normal * 0.05f;
+
+        // Check for nearby crops
+        Collider[] overlaps = Physics.OverlapSphere(fallbackSpawn, plantClearRadius);
+        foreach (var c in overlaps)
+        {
+            if (c.GetComponentInParent<Crop>() != null || c.GetComponentInChildren<Crop>() != null)
+            {
+                Debug.Log("Too close to another crop!");
                 return;
             }
-
-            // If pointing at a crop directly
-            if (lookedCrop != null)
-            {
-                var grow = lookedCrop.GetComponent<GrowCropScript>();
-                if (grow == null)
-                    grow = lookedCrop.GetComponentInChildren<GrowCropScript>();
-
-                if (grow != null && grow.isFullyGrown)
-                {
-                    CropType cropType = lookedCrop.Type;
-                    int yield = lookedCrop.HarvestYield;
-
-                    grow.Harvest();
-
-                    // Add to inventory using the crop's yield
-                    if (toolbarManager != null)
-                    {
-                        toolbarManager.TryAddCrop(cropType, yield);
-                    }
-                }
-                else if (grow != null)
-                {
-                    Debug.Log("Crop is not fully grown yet!");
-                }
-                else
-                {
-                    // Fallback: just destroy
-                    lookedCrop.Die();
-                }
-            }
         }
-    }
-    private void TryPlaceTrap()
-    {
-        // Check if we have traps available
-        if (!unlimitedTraps && trapCount <= 0)
+
+        GameObject go = Instantiate(cropItem.cropPrefab, fallbackSpawn, Quaternion.identity);
+        Crop cropComp = go.GetComponent<Crop>();
+        if (cropComp != null)
         {
-            Debug.Log("No traps remaining!");
-            return;
+            cropComp.Initialize(cropItem.cropType);
         }
 
-        if (bearTrapPrefab == null || cameraTransform == null)
-            return;
+        var grow = go.GetComponent<GrowCropScript>();
+        if (grow != null) grow.StartGrowing();
+
+        toolbarManager.TryConsumeCrop();
+    }
+
+    private void TryPlacePlaceable(PlaceableItem placeableItem)
+    {
+        if (cameraTransform == null) return;
 
         // Raycast from camera forward
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, maxTrapPlacementDistance, groundLayer))
+        if (!Physics.Raycast(ray, out hit, maxPlacementDistance, groundLayer))
         {
-            // Found ground, place trap
-            Vector3 spawnPosition = hit.point + Vector3.up * trapHeightOffset;
+            Debug.Log("No valid ground to place on!");
+            return;
+        }
 
-            // Spawn the trap
-            GameObject trap = Instantiate(bearTrapPrefab, spawnPosition, Quaternion.identity);
+        // Determine height offset based on placeable type
+        float heightOffset = GetHeightOffsetForType(placeableItem.placeableType);
+        Vector3 spawnPosition = hit.point + Vector3.up * heightOffset;
 
-            // Optional: Align trap to ground normal
-            trap.transform.up = hit.normal;
+        // Spawn the placeable
+        GameObject placed = Instantiate(placeableItem.placeablePrefab, spawnPosition, Quaternion.identity);
 
-            // Decrease trap count
-            if (!unlimitedTraps)
+        // Align to ground normal
+        placed.transform.up = hit.normal;
+
+        // Consume from inventory
+        toolbarManager.TryConsumePlaceable();
+
+        Debug.Log($"Placed {placeableItem.itemName}!");
+    }
+
+    private float GetHeightOffsetForType(PlaceableType type)
+    {
+        switch (type)
+        {
+            case PlaceableType.BearTrap:
+                return bearTrapHeightOffset;
+            case PlaceableType.FakeCrop:
+                return fakeCropHeightOffset;
+            case PlaceableType.DefensiveCrop:
+                return defensiveCropHeightOffset;
+            default:
+                return 0.1f;
+        }
+    }
+
+    private void TryHarvest()
+    {
+        // Prefer harvesting via Soil component
+        if (lookedSoilComponent != null)
+        {
+            // Read crop info before harvesting so we can determine yield
+            Crop cropBeforeHarvest = lookedSoilComponent.GetComponentInChildren<Crop>();
+            if (cropBeforeHarvest != null)
             {
-                trapCount--;
+                int yield = cropBeforeHarvest.HarvestYield;
+                bool harvested = lookedSoilComponent.TryHarvest();
+                if (harvested && toolbarManager != null)
+                {
+                    // Add multiple units based on crop's HarvestYield
+                    toolbarManager.TryAddCrop(cropBeforeHarvest.Type, yield);
+                }
+            }
+            else
+            {
+                // No Crop component found; still attempt harvest (fallback behavior)
+                lookedSoilComponent.TryHarvest();
+            }
+            return;
+        }
+
+        // If pointing at a crop directly
+        if (lookedCrop != null)
+        {
+            var grow = lookedCrop.GetComponent<GrowCropScript>();
+            if (grow == null)
+                grow = lookedCrop.GetComponentInChildren<GrowCropScript>();
+
+            if (grow != null && grow.isFullyGrown)
+            {
+                CropType cropType = lookedCrop.Type;
+                int yield = lookedCrop.HarvestYield;
+
+                grow.Harvest();
+
+                // Add to inventory using the crop's yield
+                if (toolbarManager != null)
+                {
+                    toolbarManager.TryAddCrop(cropType, yield);
+                }
+            }
+            else if (grow != null)
+            {
+                Debug.Log("Crop is not fully grown yet!");
+            }
+            else
+            {
+                // Fallback: just destroy
+                lookedCrop.Die();
             }
         }
     }
 
-    private void TryPlaceFakeCrop()
-    {
-        // Check if we have fake crops available
-        if (!unlimitedTraps && fakeCropCount <= 0)
-        {
-            Debug.Log("No fake crops remaining!");
-            return;
-        }
-
-        if (fakeCropPrefab == null || cameraTransform == null)
-            return;
-
-        // Raycast from camera forward
-        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, maxTrapPlacementDistance, groundLayer))
-        {
-            // Found ground, place fake crop
-            Vector3 spawnPosition = hit.point + Vector3.up * fakeCropHeightOffset;
-
-            // Spawn the fake crop
-            GameObject fakeCrop = Instantiate(fakeCropPrefab, spawnPosition, Quaternion.identity);
-
-            // Optional: Align to ground normal
-            fakeCrop.transform.up = hit.normal;
-
-            // Decrease count
-            if (!unlimitedTraps)
-            {
-                fakeCropCount--;
-            }
-        }
-    }
-
-    private void TryPlaceDefensiveCrop()
-    {
-        // Check if we have defensive crops available
-        if (!unlimitedTraps && defensiveCropCount <= 0)
-        {
-            Debug.Log("No defensive crops remaining!");
-            return;
-        }
-
-        if (defensiveCropPrefab == null || cameraTransform == null)
-            return;
-
-        // Raycast from camera forward
-        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, maxTrapPlacementDistance, groundLayer))
-        {
-            // Found ground, place defensive crop
-            Vector3 spawnPosition = hit.point + Vector3.up * defensiveCropHeightOffset;
-
-            // Spawn the defensive crop
-            GameObject defensiveCrop = Instantiate(defensiveCropPrefab, spawnPosition, Quaternion.identity);
-
-            // Optional: Align to ground normal
-            defensiveCrop.transform.up = hit.normal;
-
-            // Decrease count
-            if (!unlimitedTraps)
-            {
-                defensiveCropCount--;
-            }
-        }
-    }
-
-    // Public methods for trap inventory management
-    public void AddTraps(int amount)
-    {
-        trapCount += amount;
-    }
-
-    public int GetTrapCount()
-    {
-        return trapCount;
-    }
-
-    public bool HasTraps()
-    {
-        return unlimitedTraps || trapCount > 0;
-    }
     private void OnGUI()
     {
         // Draw crosshair
