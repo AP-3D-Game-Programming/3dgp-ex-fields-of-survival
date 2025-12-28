@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4c8366dd576fa2438a9603ad9d9d5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CropItem
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 72e258e7203885846857cde128e3ae1c, type: 3}
   itemName: Potato
   maxStackSize: 99
-  currentAmount: 31
+  currentAmount: 16
   cropPrefab: {fileID: 4576189034432087729, guid: b1efee7b6d6020e4185e34d3d59d518c, type: 3}
   cropType: 1

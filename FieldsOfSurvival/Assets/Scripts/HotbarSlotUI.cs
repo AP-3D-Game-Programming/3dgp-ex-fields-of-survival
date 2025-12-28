@@ -15,7 +15,7 @@ public class HotbarSlotUI : MonoBehaviour
         {
             iconImage.enabled = false;
             amountText.text = "";
-            background.color = Color.gray;
+            background.color = Color.red;
             return;
         }
 
@@ -25,7 +25,7 @@ public class HotbarSlotUI : MonoBehaviour
         string display = item.GetDisplayText();
         amountText.text = string.IsNullOrEmpty(display) ? "" : display;
 
-        background.color = selected ? Color.white : Color.gray;
+        background.color = selected ? Color.green : Color.grey;
 
         // Debug: check of de juiste text wordt weergegeven
         Debug.Log($"Slot {gameObject.name} updated: {display}");
