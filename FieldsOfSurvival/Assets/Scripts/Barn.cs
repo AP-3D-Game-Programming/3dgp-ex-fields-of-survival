@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Barn : MonoBehaviour
 {
     private Health health;
+
+    public UnityEvent OnBarnHealthChanged;
 
     private void Awake()
     {
@@ -19,6 +22,7 @@ public class Barn : MonoBehaviour
         if (health != null)
         {
             health.OnDeath.AddListener(OnBarnDestroyed);
+            health.OnDamaged.AddListener(_ => OnBarnHealthChanged?.Invoke());
         }
     }
 
@@ -26,6 +30,22 @@ public class Barn : MonoBehaviour
     {
         GameManager.Instance.GameOver();
         Destroy(gameObject, 2f);
+    }
+
+    public bool IsFullyRepaired()
+    {
+        return health != null && health.GetCurrentHealth() >= health.GetMaxHealth();
+    }
+
+    public void RepairToFull()
+    {
+        if (health == null || health.IsDead()) return;
+
+        int missingHealth = health.GetMaxHealth() - health.GetCurrentHealth();
+        if (missingHealth <= 0) return;
+
+        health.Heal(missingHealth);
+        OnBarnHealthChanged?.Invoke();
     }
 
     private void OnDestroy()

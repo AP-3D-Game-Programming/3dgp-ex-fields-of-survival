@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class ToolbarManager : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class ToolbarManager : MonoBehaviour
 
     public ToolbarItem CurrentItem => items.Length > 0 ? items[currentIndex] : null;
     public int CurrentIndex => currentIndex;
+
+    public event Action OnToolbarChanged;
+    private void NotifyToolbarChanged() => OnToolbarChanged?.Invoke();
 
     void Awake()
     {
@@ -106,6 +110,7 @@ public class ToolbarManager : MonoBehaviour
                     if (addedAny)
                     {
                         Debug.Log($"Added {amount} {cropType} to inventory. New amount: {cropItem.Amount}");
+                        NotifyToolbarChanged();
                         return true;
                     }
                     else
@@ -129,6 +134,7 @@ public class ToolbarManager : MonoBehaviour
             if (added)
             {
                 Debug.Log($"Created new stack and added {amount} {cropType}. New amount: {firstEmptySlot.Amount}");
+                NotifyToolbarChanged();
                 return true;
             }
             else
@@ -304,6 +310,48 @@ public class ToolbarManager : MonoBehaviour
 
         return null;
     }
+
+    public int GetCropCount(CropType cropType)
+{
+    int total = 0;
+
+    foreach (var item in items)
+    {
+        if (item is CropItem cropItem && cropItem.cropType == cropType)
+        {
+            total += cropItem.Amount;
+        }
+    }
+
+    return total;
+}
+
+public bool TryRemoveCrop(CropType cropType, int amount = 1)
+{
+    if (amount <= 0) return true;
+
+    // Eerst check: genoeg totaal?
+    if (GetCropCount(cropType) < amount)
+        return false;
+
+    int remaining = amount;
+
+    // Verwijder uit stacks (kan over meerdere slots verdeeld zijn)
+    foreach (var item in items)
+    {
+        if (remaining <= 0) break;
+
+        if (item is CropItem cropItem && cropItem.cropType == cropType && cropItem.Amount > 0)
+        {
+            int take = Mathf.Min(cropItem.Amount, remaining);
+            cropItem.SetAmount(cropItem.Amount - take);
+            remaining -= take;
+        }
+    }
+
+    NotifyToolbarChanged();
+    return true;
+}
 
     public ToolbarItem GetItemAt(int index)
     {

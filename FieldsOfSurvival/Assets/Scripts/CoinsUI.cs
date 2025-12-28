@@ -23,6 +23,6 @@ public class CoinsUI : MonoBehaviour
     private void UpdateText(int coins)
     {
         if (coinsText != null)
-            coinsText.text = $"Coins: {coins}";
+            coinsText.text = $"{coins}";
     }
 }
