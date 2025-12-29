@@ -8,6 +8,7 @@ public class MusicVolume : MonoBehaviour
 
     void Start()
     {
+        musicSource.loop = true;
         volumeSlider.minValue = 0f;
         volumeSlider.maxValue = 1f;
         volumeSlider.value = musicSource.volume;

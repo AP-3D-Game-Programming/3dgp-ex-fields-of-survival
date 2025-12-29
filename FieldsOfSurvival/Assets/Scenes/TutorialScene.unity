@@ -731,7 +731,7 @@ PrefabInstance:
     - target: {fileID: -3376186246886424611, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: background
       value: 
-      objectReference: {fileID: 2109101418}
+      objectReference: {fileID: 0}
     - target: {fileID: 255089982540112588, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -1116,7 +1116,7 @@ PrefabInstance:
     - target: {fileID: -3376186246886424611, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: background
       value: 
-      objectReference: {fileID: 1333263715}
+      objectReference: {fileID: 0}
     - target: {fileID: 255089982540112588, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -1261,17 +1261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f63ec1f46910041aee8efa5729bba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HotbarSlotUI
---- !u!114 &888652536 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 631671357953036937, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
-  m_PrefabInstance: {fileID: 1045023065}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &916661333
 GameObject:
   m_ObjectHideFlags: 0
@@ -1666,7 +1655,7 @@ PrefabInstance:
     - target: {fileID: -3376186246886424611, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: background
       value: 
-      objectReference: {fileID: 888652536}
+      objectReference: {fileID: 0}
     - target: {fileID: 255089982540112588, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2219,7 +2208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30b008afbe374324382446b1f2bb61e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopTutorialTrigger
-  tutorial: {fileID: 0}
+  tutorial: {fileID: 1099377860}
 --- !u!114 &1193191816 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 255089982540112588, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
@@ -2527,17 +2516,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f63ec1f46910041aee8efa5729bba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HotbarSlotUI
---- !u!114 &1333263715 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 631671357953036937, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
-  m_PrefabInstance: {fileID: 709757488}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1393259564
 GameObject:
   m_ObjectHideFlags: 0
@@ -2642,7 +2620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21050469fde2f604ca567116f22b3897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsToggle
-  canvas: {fileID: 0}
+  canvas: {fileID: 165436368}
 --- !u!4 &1485837403
 Transform:
   m_ObjectHideFlags: 0
@@ -3611,17 +3589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f63ec1f46910041aee8efa5729bba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HotbarSlotUI
---- !u!114 &2109101418 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 631671357953036937, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
-  m_PrefabInstance: {fileID: 457441640}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &2113863516
 GameObject:
   m_ObjectHideFlags: 0
