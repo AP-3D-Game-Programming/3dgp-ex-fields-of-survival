@@ -47,7 +47,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 93047b7d20d215b43964a85fb0b08920, type: 3}
   itemName: BearTrap
   maxStackSize: 99
-  currentAmount: 4
+  currentAmount: 0
   placeablePrefab: {fileID: 6608994816136074841, guid: 1e758561f03306f4f9d5128579abfaea, type: 3}
   placeableType: 0
   heldModel: {fileID: 0}
