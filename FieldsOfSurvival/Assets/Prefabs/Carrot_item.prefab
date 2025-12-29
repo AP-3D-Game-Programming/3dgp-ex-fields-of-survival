@@ -47,6 +47,6 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 1f88ed330caebaa42bf31c52abb1098a, type: 3}
   itemName: Carrot
   maxStackSize: 99
-  currentAmount: 0
+  currentAmount: 2
   cropPrefab: {fileID: 6713121785117473111, guid: d6b01049aafd1df46aef75a4d8893e6b, type: 3}
   cropType: 0
