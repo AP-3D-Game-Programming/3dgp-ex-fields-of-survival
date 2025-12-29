@@ -365,6 +365,7 @@ GameObject:
   - component: {fileID: 8058672493333656089}
   - component: {fileID: 6038908807172068498}
   - component: {fileID: 6075271703682190855}
+  - component: {fileID: 1131751050521627403}
   m_Layer: 5
   m_Name: Buy_FakeCrop
   m_TagString: Untagged
@@ -389,7 +390,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 625, y: 150}
+  m_AnchoredPosition: {x: 1424, y: 479}
   m_SizeDelta: {x: 543, y: 243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8058672493333656089
@@ -474,8 +475,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7732077828996646817}
-        m_TargetAssemblyTypeName: ShopBuyButton, Assembly-CSharp
+      - m_Target: {fileID: 1131751050521627403}
+        m_TargetAssemblyTypeName: ShopBuyPlaceableButton, Assembly-CSharp
         m_MethodName: Buy
         m_Mode: 1
         m_Arguments:
@@ -486,6 +487,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1131751050521627403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386688802269762158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9f5f00e6699ec1479761101c99d72cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopBuyPlaceableButton
+  toolbar: {fileID: 0}
+  button: {fileID: 6075271703682190855}
+  placeableToBuy: 1
+  amountToBuy: 1
+  cost: 1
 --- !u!1 &702245197820227629
 GameObject:
   m_ObjectHideFlags: 0
@@ -1166,7 +1184,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 621.99994, y: -178.1}
+  m_AnchoredPosition: {x: 779.2, y: -178.1}
   m_SizeDelta: {x: 543, y: 243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5108013716394914388
@@ -2089,6 +2107,7 @@ GameObject:
   - component: {fileID: 6029763480503991602}
   - component: {fileID: 7604477423466457220}
   - component: {fileID: 797183275773160458}
+  - component: {fileID: 6929255718870420912}
   m_Layer: 5
   m_Name: Sell_FakeCrop
   m_TagString: Untagged
@@ -2113,7 +2132,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 624.2001, y: 272.19995}
+  m_AnchoredPosition: {x: 1423.2001, y: 601.19995}
   m_SizeDelta: {x: 543, y: 243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6029763480503991602
@@ -2198,9 +2217,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7732077828996646817}
-        m_TargetAssemblyTypeName: ShopBuyButton, Assembly-CSharp
-        m_MethodName: Buy
+      - m_Target: {fileID: 6929255718870420912}
+        m_TargetAssemblyTypeName: ShopSellPlaceableButton, Assembly-CSharp
+        m_MethodName: Sell
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2210,6 +2229,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6929255718870420912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685748488650901703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0374205507577a4e8587241564bc2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopSellPlaceableButton
+  toolbar: {fileID: 0}
+  button: {fileID: 797183275773160458}
+  placeableToSell: 1
+  amountToSell: 1
+  payout: 1
 --- !u!1 &2715358773165201462
 GameObject:
   m_ObjectHideFlags: 0
@@ -2222,6 +2258,7 @@ GameObject:
   - component: {fileID: 1642534408175406992}
   - component: {fileID: 8944880684182808341}
   - component: {fileID: 6295049116418969317}
+  - component: {fileID: 356661196616523860}
   m_Layer: 5
   m_Name: Sell_BearTrap
   m_TagString: Untagged
@@ -2246,7 +2283,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -376.79968, y: 272.19995}
+  m_AnchoredPosition: {x: -506.79968, y: 295.19995}
   m_SizeDelta: {x: 543, y: 243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1642534408175406992
@@ -2331,9 +2368,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7732077828996646817}
-        m_TargetAssemblyTypeName: ShopBuyButton, Assembly-CSharp
-        m_MethodName: Buy
+      - m_Target: {fileID: 356661196616523860}
+        m_TargetAssemblyTypeName: ShopSellPlaceableButton, Assembly-CSharp
+        m_MethodName: Sell
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2343,6 +2380,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &356661196616523860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2715358773165201462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0374205507577a4e8587241564bc2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopSellPlaceableButton
+  toolbar: {fileID: 0}
+  button: {fileID: 6295049116418969317}
+  placeableToSell: 0
+  amountToSell: 1
+  payout: 1
 --- !u!1 &2912176945131900499
 GameObject:
   m_ObjectHideFlags: 0
@@ -2683,7 +2737,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -629.7997, y: 216}
+  m_AnchoredPosition: {x: -759.7997, y: 239}
   m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1489418334315648434
@@ -2836,7 +2890,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 133.99997, y: -300.3}
+  m_AnchoredPosition: {x: 465, y: -300.3}
   m_SizeDelta: {x: 543, y: 243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8237937740096002372
@@ -3423,7 +3477,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 360, y: -236.99998}
+  m_AnchoredPosition: {x: 517.2001, y: -237}
   m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1973108067236854794
@@ -3498,7 +3552,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -127, y: 216}
+  m_AnchoredPosition: {x: -438, y: 238}
   m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8774293902425144404
@@ -3969,6 +4023,7 @@ GameObject:
   - component: {fileID: 1312038216442957413}
   - component: {fileID: 1127029192791865790}
   - component: {fileID: 7460743505536330434}
+  - component: {fileID: 1313040205695551043}
   m_Layer: 5
   m_Name: Buy_BearTrap
   m_TagString: Untagged
@@ -3993,7 +4048,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -376, y: 150}
+  m_AnchoredPosition: {x: -506, y: 173}
   m_SizeDelta: {x: 543, y: 243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1312038216442957413
@@ -4078,8 +4133,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7732077828996646817}
-        m_TargetAssemblyTypeName: ShopBuyButton, Assembly-CSharp
+      - m_Target: {fileID: 1313040205695551043}
+        m_TargetAssemblyTypeName: ShopBuyPlaceableButton, Assembly-CSharp
         m_MethodName: Buy
         m_Mode: 1
         m_Arguments:
@@ -4090,6 +4145,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1313040205695551043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4106048937010634594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9f5f00e6699ec1479761101c99d72cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopBuyPlaceableButton
+  toolbar: {fileID: 0}
+  button: {fileID: 7460743505536330434}
+  placeableToBuy: 0
+  amountToBuy: 1
+  cost: 1
 --- !u!1 &4288043773579639737
 GameObject:
   m_ObjectHideFlags: 0
@@ -4373,6 +4445,7 @@ GameObject:
   - component: {fileID: 5292870146107215136}
   - component: {fileID: 3180268560668962375}
   - component: {fileID: 1185558173381032259}
+  - component: {fileID: 5019636392452242012}
   m_Layer: 5
   m_Name: Sell_DefensiveCrop
   m_TagString: Untagged
@@ -4397,7 +4470,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 134.20015, y: 272.19995}
+  m_AnchoredPosition: {x: -176.79985, y: 294.19995}
   m_SizeDelta: {x: 543, y: 243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5292870146107215136
@@ -4482,9 +4555,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7732077828996646817}
-        m_TargetAssemblyTypeName: ShopBuyButton, Assembly-CSharp
-        m_MethodName: Buy
+      - m_Target: {fileID: 5019636392452242012}
+        m_TargetAssemblyTypeName: ShopSellPlaceableButton, Assembly-CSharp
+        m_MethodName: Sell
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4494,6 +4567,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5019636392452242012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5334173263646913897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0374205507577a4e8587241564bc2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopSellPlaceableButton
+  toolbar: {fileID: 0}
+  button: {fileID: 1185558173381032259}
+  placeableToSell: 2
+  amountToSell: 1
+  payout: 1
 --- !u!1 &5534113433186320054
 GameObject:
   m_ObjectHideFlags: 0
@@ -4528,7 +4618,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 362.20013, y: 216}
+  m_AnchoredPosition: {x: 1161.2002, y: 545}
   m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3906476744260232088
@@ -4856,9 +4946,9 @@ RectTransform:
   - {fileID: 2978055090447608952}
   m_Father: {fileID: 7843790088527955571}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -499.99, y: -237.47}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 650, y: 0}
   m_SizeDelta: {x: 520.249, y: 239.72302}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2468584065644136547
@@ -5250,7 +5340,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 622.7999, y: -300.3}
+  m_AnchoredPosition: {x: 780, y: -300.3}
   m_SizeDelta: {x: 543, y: 243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6374147719919254052
@@ -5543,6 +5633,7 @@ GameObject:
   - component: {fileID: 8148984123359238104}
   - component: {fileID: 7779942034066115108}
   - component: {fileID: 2915253802388575202}
+  - component: {fileID: 6955694176749569413}
   m_Layer: 5
   m_Name: Buy_DefensiveCrop
   m_TagString: Untagged
@@ -5567,7 +5658,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 134.99995, y: 150}
+  m_AnchoredPosition: {x: -176, y: 172}
   m_SizeDelta: {x: 543, y: 243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8148984123359238104
@@ -5652,8 +5743,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7732077828996646817}
-        m_TargetAssemblyTypeName: ShopBuyButton, Assembly-CSharp
+      - m_Target: {fileID: 6955694176749569413}
+        m_TargetAssemblyTypeName: ShopBuyPlaceableButton, Assembly-CSharp
         m_MethodName: Buy
         m_Mode: 1
         m_Arguments:
@@ -5664,6 +5755,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6955694176749569413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7487567823165290455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9f5f00e6699ec1479761101c99d72cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopBuyPlaceableButton
+  toolbar: {fileID: 0}
+  button: {fileID: 2915253802388575202}
+  placeableToBuy: 2
+  amountToBuy: 1
+  cost: 1
 --- !u!1 &7663301736232018494
 GameObject:
   m_ObjectHideFlags: 0
@@ -5969,7 +6077,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -129, y: -236.99998}
+  m_AnchoredPosition: {x: 202, y: -237}
   m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4392344978730154661
@@ -6183,7 +6291,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 133.99997, y: -181.3}
+  m_AnchoredPosition: {x: 464.99997, y: -181.29999}
   m_SizeDelta: {x: 543, y: 243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6792138940930269035

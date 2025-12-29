@@ -230,6 +230,7 @@ public class ToolbarManager : MonoBehaviour
                     if (addedAny)
                     {
                         Debug.Log($"Added {amount} {placeableType} to inventory. New amount: {placeableItem.Amount}");
+                        NotifyToolbarChanged();
                         return true;
                     }
                     else
@@ -253,6 +254,7 @@ public class ToolbarManager : MonoBehaviour
             if (added)
             {
                 Debug.Log($"Created new stack and added {amount} {placeableType}. New amount: {firstEmptySlot.Amount}");
+                NotifyToolbarChanged();
                 return true;
             }
             else
@@ -312,46 +314,46 @@ public class ToolbarManager : MonoBehaviour
     }
 
     public int GetCropCount(CropType cropType)
-{
-    int total = 0;
-
-    foreach (var item in items)
     {
-        if (item is CropItem cropItem && cropItem.cropType == cropType)
+        int total = 0;
+
+        foreach (var item in items)
         {
-            total += cropItem.Amount;
+            if (item is CropItem cropItem && cropItem.cropType == cropType)
+            {
+                total += cropItem.Amount;
+            }
         }
+
+        return total;
     }
 
-    return total;
-}
-
-public bool TryRemoveCrop(CropType cropType, int amount = 1)
-{
-    if (amount <= 0) return true;
-
-    // Eerst check: genoeg totaal?
-    if (GetCropCount(cropType) < amount)
-        return false;
-
-    int remaining = amount;
-
-    // Verwijder uit stacks (kan over meerdere slots verdeeld zijn)
-    foreach (var item in items)
+    public bool TryRemoveCrop(CropType cropType, int amount = 1)
     {
-        if (remaining <= 0) break;
+        if (amount <= 0) return true;
 
-        if (item is CropItem cropItem && cropItem.cropType == cropType && cropItem.Amount > 0)
+        // Eerst check: genoeg totaal?
+        if (GetCropCount(cropType) < amount)
+            return false;
+
+        int remaining = amount;
+
+        // Verwijder uit stacks (kan over meerdere slots verdeeld zijn)
+        foreach (var item in items)
         {
-            int take = Mathf.Min(cropItem.Amount, remaining);
-            cropItem.SetAmount(cropItem.Amount - take);
-            remaining -= take;
-        }
-    }
+            if (remaining <= 0) break;
 
-    NotifyToolbarChanged();
-    return true;
-}
+            if (item is CropItem cropItem && cropItem.cropType == cropType && cropItem.Amount > 0)
+            {
+                int take = Mathf.Min(cropItem.Amount, remaining);
+                cropItem.SetAmount(cropItem.Amount - take);
+                remaining -= take;
+            }
+        }
+
+        NotifyToolbarChanged();
+        return true;
+    }
 
     public ToolbarItem GetItemAt(int index)
     {
@@ -361,4 +363,40 @@ public bool TryRemoveCrop(CropType cropType, int amount = 1)
     }
 
     public int ItemCount => items != null ? items.Length : 0;
+
+    public int GetPlaceableCount(PlaceableType type)
+    {
+        int total = 0;
+        foreach (var item in items)
+        {
+            if (item is PlaceableItem p && p.placeableType == type)
+                total += p.Amount;
+        }
+        return total;
+    }
+
+    public bool TryRemovePlaceable(PlaceableType type, int amount = 1)
+    {
+        if (amount <= 0) return true;
+
+        if (GetPlaceableCount(type) < amount)
+            return false;
+
+        int remaining = amount;
+
+        foreach (var item in items)
+        {
+            if (remaining <= 0) break;
+
+            if (item is PlaceableItem p && p.placeableType == type && p.Amount > 0)
+            {
+                int take = Mathf.Min(p.Amount, remaining);
+                p.SetAmount(p.Amount - take);
+                remaining -= take;
+            }
+        }
+
+        NotifyToolbarChanged();
+        return true;
+    }
 }
