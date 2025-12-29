@@ -47,7 +47,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: ebc5f652b54a385498fe2a285d5da300, type: 3}
   itemName: DefensiveCrop
   maxStackSize: 99
-  currentAmount: 1
+  currentAmount: 4
   placeablePrefab: {fileID: 772043942480770203, guid: 2d5dbc33ec1f650478d2e53cb9b98ef7, type: 3}
   placeableType: 2
   heldModel: {fileID: 0}

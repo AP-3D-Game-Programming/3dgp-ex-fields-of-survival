@@ -74,6 +74,6 @@ public class WeaponItem : ToolbarItem
 
     public override string GetDisplayText()
     {
-        return $"{currentAmmo}/{maxAmmo}";
+        return $"Gun {currentAmmo}/{maxAmmo}";
     }
 }

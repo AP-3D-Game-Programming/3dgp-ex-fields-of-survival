@@ -21,6 +21,7 @@ public class HotbarSlotUI : MonoBehaviour
 
         iconImage.enabled = true;
         iconImage.sprite = item.icon;
+        
 
         string display = item.GetDisplayText();
         amountText.text = string.IsNullOrEmpty(display) ? "" : display;

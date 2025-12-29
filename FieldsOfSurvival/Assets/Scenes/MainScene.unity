@@ -1947,6 +1947,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f63ec1f46910041aee8efa5729bba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HotbarSlotUI
+--- !u!114 &797010578 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+  m_PrefabInstance: {fileID: 2060981589}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &833545523
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1989,7 +2000,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3513860124910868278, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_Pivot.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3513860124910868278, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2065,7 +2076,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_text
-      value: Gun
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_fontSize
@@ -2097,7 +2108,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4294506744
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_VerticalAlignment
@@ -2244,6 +2255,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 957840955}
     - target: {fileID: -3376186246886424611, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: amountText
+      value: 
+      objectReference: {fileID: 1429875645}
+    - target: {fileID: -3376186246886424611, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: background
       value: 
       objectReference: {fileID: 1982285865}
@@ -2345,7 +2360,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_text
-      value: Trap
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_fontSize
@@ -2397,7 +2412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7487280889492025983, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 50
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7487280889492025983, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2627,6 +2642,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1161752858 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+  m_PrefabInstance: {fileID: 1176541578}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &1176541578
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2639,6 +2665,10 @@ PrefabInstance:
       propertyPath: iconImage
       value: 
       objectReference: {fileID: 1176541580}
+    - target: {fileID: -3376186246886424611, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: amountText
+      value: 
+      objectReference: {fileID: 1161752858}
     - target: {fileID: -3376186246886424611, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: background
       value: 
@@ -2741,7 +2771,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_text
-      value: Fake Crop
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_fontSize
@@ -3356,6 +3386,17 @@ Transform:
   - {fileID: 407348443}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1429875645 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+  m_PrefabInstance: {fileID: 957840953}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!114 &1441940671 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 529384319452368858, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
@@ -3367,6 +3408,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!114 &1562522988 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+  m_PrefabInstance: {fileID: 5429829246679322804}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &1620311769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3511,6 +3563,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3954743708030227398, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
   m_PrefabInstance: {fileID: 1620311769}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1688649972 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+  m_PrefabInstance: {fileID: 1799520179}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1758120231
 GameObject:
   m_ObjectHideFlags: 0
@@ -3598,6 +3661,10 @@ PrefabInstance:
       propertyPath: iconImage
       value: 
       objectReference: {fileID: 1847563319}
+    - target: {fileID: -3376186246886424611, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: amountText
+      value: 
+      objectReference: {fileID: 1688649972}
     - target: {fileID: -3376186246886424611, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: background
       value: 
@@ -3692,7 +3759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_text
-      value: Defensive Crop
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_fontSize
@@ -4178,16 +4245,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1001871213}
     - target: {fileID: -3376186246886424611, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: amountText
+      value: 
+      objectReference: {fileID: 797010578}
+    - target: {fileID: -3376186246886424611, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: background
       value: 
       objectReference: {fileID: 1441940671}
     - target: {fileID: 255089982540112588, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 72e258e7203885846857cde128e3ae1c, type: 3}
+      objectReference: {fileID: 21300000, guid: 550786154ca8ced4e898602375f223fb, type: 3}
+    - target: {fileID: 255089982540112588, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 347681629914801620, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_Name
       value: PotatoSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 529384319452368858, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 529384319452368858, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: m_Color.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 631671357953036937, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_Type
@@ -4203,7 +4286,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3513860124910868278, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_Pivot.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3513860124910868278, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4279,7 +4362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_text
-      value: Potato
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_fontSize
@@ -4512,13 +4595,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1832715002}
     - target: {fileID: -3376186246886424611, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
+      propertyPath: amountText
+      value: 
+      objectReference: {fileID: 1562522988}
+    - target: {fileID: -3376186246886424611, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: background
       value: 
       objectReference: {fileID: 937225083}
     - target: {fileID: 255089982540112588, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 72e258e7203885846857cde128e3ae1c, type: 3}
+      objectReference: {fileID: 21300000, guid: 1f88ed330caebaa42bf31c52abb1098a, type: 3}
     - target: {fileID: 347681629914801620, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_Name
       value: CarrotSlot
@@ -4569,7 +4656,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3513860124910868278, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_Pivot.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3513860124910868278, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4605,7 +4692,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3513860124910868278, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.001429975
       objectReference: {fileID: 0}
     - target: {fileID: 3513860124910868278, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4645,7 +4732,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_text
-      value: Carrot
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4581104848303864529, guid: 2ed1cad3de54cdf4abd814f347e960f6, type: 3}
       propertyPath: m_fontSize

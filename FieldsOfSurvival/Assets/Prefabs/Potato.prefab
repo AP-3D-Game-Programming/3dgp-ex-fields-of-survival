@@ -113,7 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Crop
   cropType: 1
   harvestYield: 1
-  bonusDropChance: 0.25
+  bonusDropChance: 0.5
 --- !u!114 &-695036629861126308
 MonoBehaviour:
   m_ObjectHideFlags: 0

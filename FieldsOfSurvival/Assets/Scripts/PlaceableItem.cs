@@ -82,7 +82,7 @@ public class PlaceableItem : ToolbarItem
 
     public override string GetDisplayText()
     {
-        return currentAmount > 0 ? currentAmount.ToString() : "";
+        return $"{placeableType.ToString()} {currentAmount}";
     }
 }
 
