@@ -47,6 +47,6 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 550786154ca8ced4e898602375f223fb, type: 3}
   itemName: Potato
   maxStackSize: 99
-  currentAmount: 0
+  currentAmount: 5
   cropPrefab: {fileID: 4576189034432087729, guid: b1efee7b6d6020e4185e34d3d59d518c, type: 3}
   cropType: 1

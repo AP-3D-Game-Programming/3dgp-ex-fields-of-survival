@@ -8,7 +8,7 @@ public class ShopTutorialTrigger : MonoBehaviour
     {
         if (tutorial == null) return;
 
-        if (other.CompareTag("Player") && tutorial.step == 3)
+        if (other.CompareTag("Player") && tutorial.step == 6)
         {
             tutorial.NextStep();
         }
