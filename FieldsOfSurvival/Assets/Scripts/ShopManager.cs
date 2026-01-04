@@ -17,6 +17,8 @@ public class ShopManager : MonoBehaviour
         shopOpen = true;
         shopCanvas.SetActive(true);
 
+        Time.timeScale = 0f;
+
         // Cursor tonen & unlocken
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -34,6 +36,8 @@ public class ShopManager : MonoBehaviour
 
         shopOpen = false;
         shopCanvas.SetActive(false);
+
+        Time.timeScale = 1f;
 
         // Cursor verstoppen & locken
         Cursor.lockState = CursorLockMode.Locked;

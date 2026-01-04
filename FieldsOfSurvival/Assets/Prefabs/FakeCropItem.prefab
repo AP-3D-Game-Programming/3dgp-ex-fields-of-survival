@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6118484818417516412
 Transform:
   m_ObjectHideFlags: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: b732fbc5be19834498b4dd1c86d71bc0, type: 3}
   itemName: FakeCrop
   maxStackSize: 99
-  currentAmount: 5
+  currentAmount: 0
   placeablePrefab: {fileID: 3330576357324624627, guid: e93812bf14c986d488753ca94545faa4, type: 3}
   placeableType: 1
   heldModel: {fileID: 0}
