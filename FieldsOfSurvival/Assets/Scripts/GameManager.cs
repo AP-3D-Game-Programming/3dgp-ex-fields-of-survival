@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Over")]
     [SerializeField] private bool isGameOver = false;
+    [SerializeField] private GameObject gameOverCanvas;
     public UnityEvent OnGameOver;
 
     // Properties
@@ -290,15 +291,23 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        if (isGameOver) return; // Prevent calling multiple times
+        if (isGameOver) return;
 
         isGameOver = true;
 
         Debug.Log("GAME OVER - Barn Destroyed!");
 
-        OnGameOver?.Invoke();
+        Time.timeScale = 0f;
 
-        //TODO: game over screen / logic
+        if (gameOverCanvas != null)
+        {
+            gameOverCanvas.SetActive(true);
+        }
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        OnGameOver?.Invoke();
     }
 
     //draws the spawn zones in the scene view

@@ -1931,6 +1931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialManager
   tutorialText: {fileID: 1194110364}
   step: 0
+  playerControlScripts: []
   mainGameSceneName: MainScene
 --- !u!4 &1099377861
 Transform:
@@ -2707,7 +2708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21050469fde2f604ca567116f22b3897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsToggle
-  canvas: {fileID: 0}
+  canvas: {fileID: 1285664964}
 --- !u!4 &1485837403
 Transform:
   m_ObjectHideFlags: 0
@@ -3374,7 +3375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MusicVolume
   musicSource: {fileID: 1727207398}
-  volumeSlider: {fileID: 0}
+  volumeSlider: {fileID: 1678024758}
 --- !u!82 &1727207398
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4139,6 +4140,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 356661196616523860, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: toolbar
+      value: 
+      objectReference: {fileID: 1965097520}
+    - target: {fileID: 756042195141328528, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 756042195141328528, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 1131751050521627403, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: toolbar
+      value: 
+      objectReference: {fileID: 1965097520}
     - target: {fileID: 1145447135148422358, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
       propertyPath: m_Name
       value: Map
@@ -4147,6 +4164,10 @@ PrefabInstance:
       propertyPath: toolbar
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1313040205695551043, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: toolbar
+      value: 
+      objectReference: {fileID: 1965097520}
     - target: {fileID: 2161685815055686330, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
       propertyPath: m_Size.y
       value: 0
@@ -4191,6 +4212,38 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5019636392452242012, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: toolbar
+      value: 
+      objectReference: {fileID: 1965097520}
+    - target: {fileID: 5189587694612311698, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 5189587694612311698, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 5189587694612311698, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -14.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074295803714599776, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074295803714599776, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 6929255718870420912, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: toolbar
+      value: 
+      objectReference: {fileID: 1965097520}
+    - target: {fileID: 6955694176749569413, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
+      propertyPath: toolbar
+      value: 
+      objectReference: {fileID: 1965097520}
     - target: {fileID: 7535969761172737668, guid: 6a4591f50dbcf21438a4ad94b5b7f4bb, type: 3}
       propertyPath: toolbar
       value: 
