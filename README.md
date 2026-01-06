@@ -54,3 +54,14 @@ Boven de schuur wordt de HP weergegeven aan de hand van een balk. Ook vijanden h
 In het midden van het scherm bevindt zich een crosshair die aanduidt waar de speler naar kijkt.
 De kleur van de crosshair verandert afhankelijk van de interactie: wanneer de speler naar een vijand kijkt of wanneer hij zich richt op een plaats waar geplant kan worden.
 In de winkelinterface wordt duidelijk weergegeven hoeveel muntjes de speler bezit, zodat aankopen eenvoudig kunnen worden gemaakt.
+
+# Level Ideas
+## Levels
+De levels in het spel zijn opgebouwd uit rondes. Elke nieuwe ronde wordt moeilijker doordat het aantal vijanden toeneemt en de druk op de speler groter wordt.
+Hierdoor wordt het steeds uitdagender om zowel de gewassen tijdig te oogsten als de schuur te verdedigen.
+Momenteel stijgt de moeilijkheidsgraad exponentieel, maar dit kan in de toekomst worden aangepast naar een meer gestroomlijnd progressiesysteem.
+Hierbij worden nieuwe vijandtypes geleidelijk geïntroduceerd, bijvoorbeeld eerst één type vijand, gevolgd door een tweede type in latere rondes.
+Na een bepaald aantal rondes kan er ook een boss-vijand verschijnen om extra uitdaging te bieden.
+Door deze levelprogressie leert de speler verschillende vaardigheden aan.
+De belangrijkste hiervan zijn het strategisch plannen van wanneer het beste moment is om te planten en te oogsten, en wanneer de focus moet liggen op het plaatsen van vallen en het bestrijden van vijanden.
+Naarmate de rondes vorderen, wordt het maken van de juiste keuzes steeds belangrijker.
